@@ -8,9 +8,5 @@ node_js:
 before_install:
   - npm install express body-parser
 
-before_script:
-  - nohup node ./test/assets/server.js >./test-server.log 2>&1 &
-  - sleep 5
-
 after_script:
   - cat ./test-server.log
