@@ -9,7 +9,8 @@ import { Response } from './includes/response';
 export = {
     middleware: (options: any) => {
         const manager = new Manager(options);
-
+        //
+        // Building the actual middleware to return.
         return (req: { [name: string]: any }, res: { [name: string]: any }, next: () => void) => {
             const respond = (response: Response) => {
                 if (response.skip) {

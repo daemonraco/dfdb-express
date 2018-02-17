@@ -1,3 +1,5 @@
 #!/bin/bash
 kill $(cat ./test/tmp/PID);
-cat ./test/tmp/test-server.log;
+
+echo "Execution log:"
+cat ./test/tmp/test-server.log | awk '{print "  |  " $0}';

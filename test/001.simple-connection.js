@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 describe('dfdb: Simple connection', function () {
     it('requesting the default endpoint', (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest')
+            .get('/rest/basics')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);

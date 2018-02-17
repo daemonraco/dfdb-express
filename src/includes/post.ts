@@ -9,6 +9,8 @@ import { Method } from "./method";
 import { Response } from "./response";
 
 export class Post extends Method {
+    //
+    // Public methods.
     public process(params: { [name: string]: any }): Promise<Response> {
         let results: Promise<Response> = null;
 
@@ -24,28 +26,24 @@ export class Post extends Method {
 
         return results;
     }
-
+    //
+    // Protected methods.
     protected insert(collectionName: string, document: { [name: string]: any }): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
-            const send500: any = (err: string) => {
-                result.status = 500;
-                result.errorBody = { message: err };
-
-                reject(result);
+            if (this._hiddenCollections.indexOf(collectionName) < 0) {
+                this._connection.collection(collectionName)
+                    .then((col: any) => {
+                        col.insert(document)
+                            .then((insertedDocument: any) => {
+                                result.body = insertedDocument;
+                                resolve(result);
+                            }).catch((err: string) => this.rejectWithCode500(err, reject));
+                    }).catch((err: string) => this.rejectWithCode500(err, reject));
+            } else {
+                this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
             }
-
-            this._connection.collection(collectionName)
-                .then((col: any) => {
-                    col.insert(document)
-                        .then((insertedDocument: any) => {
-                            result.body = insertedDocument;
-                            resolve(result);
-                        })
-                        .catch(send500);
-                })
-                .catch(send500);
         });
     }
 }

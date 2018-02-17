@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 describe('dfdb: RESTful interaction', function () {
     it('Listing initial collections', (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest')
+            .get('/rest/basics')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -35,7 +35,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it('Listing initial collections (as simple response)', (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest?simple')
+            .get('/rest/basics?simple')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -55,7 +55,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it(`Listing contents on 'users' collection`, (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest/users')
+            .get('/rest/basics/users')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -85,7 +85,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it(`Listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest/users?simple')
+            .get('/rest/basics/users?simple')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -105,7 +105,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it('Inserting a new user', (done) => {
         chai.request('http://localhost:3000')
-            .post('/dfdb-rest/users')
+            .post('/rest/basics/users')
             .send({
                 isActive: false,
                 age: 30,
@@ -144,9 +144,9 @@ describe('dfdb: RESTful interaction', function () {
             });
     });
 
-    it('Listing initial collections', (done) => {
+    it('Listing updated collections', (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest')
+            .get('/rest/basics')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -173,9 +173,9 @@ describe('dfdb: RESTful interaction', function () {
             });
     });
 
-    it('Listing initial collections (as simple response)', (done) => {
+    it('Listing updated collections (as simple response)', (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest?simple')
+            .get('/rest/basics?simple')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -196,7 +196,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it(`Listing contents on 'users' collection`, (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest/users')
+            .get('/rest/basics/users')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -240,7 +240,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it(`Listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest/users?simple')
+            .get('/rest/basics/users?simple')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -274,7 +274,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it('Updaintg the inserted user', (done) => {
         chai.request('http://localhost:3000')
-            .put('/dfdb-rest/users/1')
+            .put('/rest/basics/users/1')
             .send({
                 isActive: false,
                 age: 32,
@@ -315,7 +315,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it(`Listing contents on 'users' collection`, (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest/users')
+            .get('/rest/basics/users')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -359,7 +359,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it(`Listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest/users?simple')
+            .get('/rest/basics/users?simple')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -393,7 +393,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it('Removing the inserted user', (done) => {
         chai.request('http://localhost:3000')
-            .delete('/dfdb-rest/users/1')
+            .delete('/rest/basics/users/1')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -413,7 +413,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it(`Listing contents on 'users' collection`, (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest/users')
+            .get('/rest/basics/users')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
@@ -443,7 +443,7 @@ describe('dfdb: RESTful interaction', function () {
 
     it(`Listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request('http://localhost:3000')
-            .get('/dfdb-rest/users?simple')
+            .get('/rest/basics/users?simple')
             .end((err, res) => {
                 assert.isNull(err);
                 assert.strictEqual(res.status, 200);
