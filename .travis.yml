@@ -1,8 +1,16 @@
 language: node_js
+
 node_js:
   - "6"
   - "8"
   - "9"
-before_script:
+
+before_install:
   - npm install express body-parser
-  - nohup node ./test/assets/server.js &
+
+before_script:
+  - nohup node ./test/assets/server.js >./test-server.log 2>&1 &
+  - sleep 5
+
+after_script:
+  - cat ./test-server.log
