@@ -9,6 +9,8 @@ import { Method } from "./method";
 import { Response } from "./response";
 
 export class Get extends Method {
+    //
+    // Public methods.
     public process(params: { [name: string]: any }): Promise<Response> {
         let results: Promise<Response> = null;
 
@@ -28,7 +30,8 @@ export class Get extends Method {
 
         return results;
     }
-
+    //
+    // Protected methods.
     protected collection(collectionName: string, simple: boolean = false, conditionSets: { [name: string]: any }): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
@@ -52,29 +55,19 @@ export class Get extends Method {
                 conditions = {};
             }
 
-            const send500: any = (err: string) => {
-                result.status = 500;
-                result.errorBody = { message: err };
-
-                reject(result);
-            }
             const buildBody: any = (data: any) => {
                 return simple ? data.docs : data;
             }
 
-            if (typeof collections[collectionName] !== 'undefined') {
+            if (typeof collections[collectionName] !== 'undefined' && this._hiddenCollections.indexOf(collectionName) < 0) {
                 this._connection.collection(collectionName)
                     .then((col: any) => {
                         col[searchMechanism](conditions)
                             .then((docs: any[]) => {
                                 result.body = buildBody({ searchMechanism, conditions, docs });
                                 resolve(result);
-                            })
-                            .catch(send500);
-                    })
-                    .catch((err: string) => {
-                        send500(err);
-                    });
+                            }).catch((err: string) => this.rejectWithCode500(err, reject));
+                    }).catch((err: string) => this.rejectWithCode500(err, reject));
             } else {
                 result.body = buildBody({ searchMechanism, conditions, docs: [] });
                 resolve(result);
@@ -85,22 +78,9 @@ export class Get extends Method {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
-            const send404: any = () => {
-                result.status = 404;
-                result.errorBody = { message: `Document with id '${documentId}' not found` };
-
-                reject(result);
-            };
-            const send500: any = (err: string) => {
-                result.status = 500;
-                result.errorBody = { message: err };
-
-                reject(result);
-            };
-
             const collections = this._connection.collections();
 
-            if (typeof collections[collectionName] !== 'undefined') {
+            if (typeof collections[collectionName] !== 'undefined' && this._hiddenCollections.indexOf(collectionName) < 0) {
                 this._connection.collection(collectionName)
                     .then((col: any) => {
                         col.searchOne({ _id: documentId })
@@ -109,14 +89,12 @@ export class Get extends Method {
                                     result.body = data;
                                     resolve(result);
                                 } else {
-                                    send404();
+                                    this.rejectWithCode404(`Document with id '${documentId}' not found`, reject);
                                 }
-                            })
-                            .catch(send500);
-                    })
-                    .catch(send500);
+                            }).catch((err: string) => this.rejectWithCode500(err, reject));
+                    }).catch((err: string) => this.rejectWithCode500(err, reject));
             } else {
-                send404();
+                this.rejectWithCode404(`Document with id '${documentId}' not found`, reject);
             }
         });
     }
@@ -124,10 +102,16 @@ export class Get extends Method {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
+            const tempResult = this._connection.collections();
+            result.body = {};
+            Object.keys(tempResult).forEach((name: string) => {
+                if (this._hiddenCollections.indexOf(name) < 0) {
+                    result.body[name] = tempResult[name];
+                }
+            });
+
             if (simple) {
-                result.body = Object.keys(this._connection.collections());
-            } else {
-                result.body = this._connection.collections();
+                result.body = Object.keys(result.body);
             }
 
             resolve(result);

@@ -17,9 +17,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const expressConnector = require('../..').middleware;
 
 app.use(expressConnector({
-    dbname: 'testdb',
+    dbname: 'test_basics',
     dbpath: path.join(__dirname, '../tmp'),
-    restPath: '/dfdb-rest'
+    restPath: '/rest/basics'
+}));
+
+app.use(expressConnector({
+    dbname: 'test_hiddens',
+    dbpath: path.join(__dirname, '../tmp'),
+    restPath: '/rest/hiddens',
+    hide: ['profiles']
 }));
 // @}
 

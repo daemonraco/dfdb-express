@@ -8,45 +8,39 @@ import { DocsOnFileDB } from 'dfdb';
 
 import { Delete } from './delete';
 import { Get } from './get';
+import { Method } from './method';
 import { Post } from './post';
 import { Put } from './put';
-import { Method } from './method';
 import { Response } from './response';
 
 export class Manager {
     protected _connection: any = null;
+    protected _dbname: string = null;
+    protected _dbpath: string = null;
     protected _fullUrlPattern: RegExp = null;
+    protected _hiddenCollections: string[] = [];
     protected _processors: { [name: string]: Method } = {};
     protected _options: any = {};
+    protected _restPath: string = null;
     protected _subUrlPattern: RegExp = /^\/(.+)(\/.*|)/;
 
     constructor(options: { [name: string]: any }) {
         this._options = options;
-        const { dbname, dbpath, restPath } = this._options;
+        this.parseOptions();
 
-        if (dbname === undefined) {
-            throw `Required option 'dbname' was not given`;
-        }
-        if (dbpath === undefined) {
-            throw `Required option 'dbpath' was not given`;
-        }
-        if (restPath === undefined) {
-            throw `Required option 'restPath' was not given`;
-        }
-
-        DocsOnFileDB.connect(dbname, dbpath)
+        DocsOnFileDB.connect(this._dbname, this._dbpath)
             .then(conn => {
                 this._connection = conn;
 
-                this._processors['GET'] = new Get(this._connection);
-                this._processors['POST'] = new Post(this._connection);
-                this._processors['PUT'] = new Put(this._connection);
+                this._processors['GET'] = new Get(this._connection, this._hiddenCollections);
+                this._processors['POST'] = new Post(this._connection, this._hiddenCollections);
+                this._processors['PUT'] = new Put(this._connection, this._hiddenCollections);
                 this._processors['PATCH'] = this._processors['PUT'];
-                this._processors['DELETE'] = new Delete(this._connection);
+                this._processors['DELETE'] = new Delete(this._connection, this._hiddenCollections);
             })
             .catch(err => { throw err; });
 
-        this._fullUrlPattern = RegExp(`^${restPath}(.*)`);
+        this._fullUrlPattern = RegExp(`^${this._restPath}(.*)`);
     }
 
     public process(req: { [name: string]: any }, res: { [name: string]: any }): Promise<Response> {
@@ -87,5 +81,43 @@ export class Manager {
                 reject(results);
             }
         });
+    }
+    //
+    // Protected metods.
+    /**
+     * This method parse given parameters on instantiation.
+     *
+     * @protected
+     * @method parseOptions
+     */
+    protected parseOptions(): void {
+        const { dbname, dbpath, restPath, hide } = this._options;
+        //
+        // Mandatory options.
+        if (dbname === undefined) {
+            throw `Required option 'dbname' was not given`;
+        } else {
+            this._dbname = dbname;
+        }
+        if (dbpath === undefined) {
+            throw `Required option 'dbpath' was not given`;
+        } else {
+            this._dbpath = dbpath;
+        }
+        if (restPath === undefined) {
+            throw `Required option 'restPath' was not given`;
+        } else {
+            this._restPath = restPath;
+        }
+        //
+        // Optional options.
+        if (hide !== undefined && Array.isArray(hide)) {
+            this._hiddenCollections = hide;
+            for (let i = this._hiddenCollections.length - 1; i >= 0; i--) {
+                if (typeof this._hiddenCollections[i] !== 'string') {
+                    delete this._hiddenCollections[i];
+                }
+            }
+        }
     }
 };
