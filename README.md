@@ -45,10 +45,15 @@ const expressConnector = require('../..').middleware;
 // Of course 'dbname' and 'dbpath' are the basic parameters required by
 // 'DocsOnFileDB' to access certain database, in this case, the one that's going
 // to be exposed.
+// Also, in this configuraion the collection 'my_private_collection' won't be
+// exposed.
 app.use(expressConnector({
     dbname: 'mydb',
     dbpath: path.join(__dirname, 'db-dir'),
-    restPath: '/rest/mydb'
+    restPath: '/rest/mydb',
+    hide:[
+        'my_private_collection'
+    ]
 }));
 
 //
@@ -78,6 +83,16 @@ Based on te example, and assuming that you want to use a collection called
 collection `users`.
 * `[DELETE] /rest/mydb/users/:id` Removes certain document from collection
 `users`.
+* `[GET] /rest/mydb/users?filter={"username":"someuser"}` Searches for all users
+that have the _username_ `someuser`, but this requires _username_ to be an indexed
+field on collection `users`.
+* `[GET] /rest/mydb/users?filter={"username":"someuser"}&simple` Idem, but simpler
+response.
+* `[GET] /rest/mydb/users?query={"username":"someuser"}` Searches for all users
+that have the _username_ `someuser`. This doesn't require fields to be indexed; if
+they are, it will prioritize them, otherwish this call won't fail.
+* `[GET] /rest/mydb/users?query={"username":"someuser"}&simple` Idem, but simpler
+response.
 
 # Licence
 MIT &copy; 2018 [Alejandro Dario Simi](http://daemonraco.com)
