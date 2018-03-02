@@ -28,6 +28,12 @@ app.use(expressConnector({
     restPath: '/rest/hiddens',
     hide: ['profiles']
 }));
+
+app.use(expressConnector({
+    dbname: 'test_schemas',
+    dbpath: path.join(__dirname, '../tmp'),
+    restPath: '/rest/schemas'
+}));
 // @}
 
 app.all('*', (req, res) => {

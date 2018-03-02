@@ -20,7 +20,14 @@ export class Get extends Method {
 
         if (params.collection) {
             if (params.id) {
-                results = this.document(params.collection, params.id);
+                switch (params.id) {
+                    case '$schema':
+                        results = this.schema(params.collection);
+                        break;
+                    default:
+                        results = this.document(params.collection, params.id);
+                        break;
+                }
             } else {
                 results = this.collection(params.collection, simple, { filter, query });
             }
@@ -115,6 +122,28 @@ export class Get extends Method {
             }
 
             resolve(result);
+        });
+    }
+    protected schema(collectionName: string): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            const collections = this._connection.collections();
+
+            if (typeof collections[collectionName] !== 'undefined' && this._hiddenCollections.indexOf(collectionName) < 0) {
+                this._connection.collection(collectionName)
+                    .then((col: any) => {
+                        if (col.hasSchema()) {
+                            result.body = col.schema();
+                            resolve(result);
+                        } else {
+                            result.body = null;
+                            resolve(result);
+                        }
+                    }).catch((err: string) => this.rejectWithCode500(err, reject));
+            } else {
+                this.rejectWithCode404(`Collection not found`, reject);
+            }
         });
     }
 }

@@ -5,6 +5,19 @@
 # DocsOnFileDB (ExpressJS connector)
 This is a simple extension to easily expose a DocsOnFileDB through Express as a RESTful API.
 
+# Contents
+<!-- TOC updateOnSave:true -->
+
+- [DocsOnFileDB (ExpressJS connector)](#docsonfiledb-expressjs-connector)
+- [Contents](#contents)
+- [Installation](#installation)
+- [How to use](#how-to-use)
+- [Endpoints](#endpoints)
+- [Licence](#licence)
+
+<!-- /TOC -->
+
+
 # Installation
 To install this module you may run:
 ```
@@ -79,6 +92,7 @@ Based on te example, and assuming that you want to use a collection called
 * `[GET] /rest/mydb/users` List of documents stored inside the collection `users`.
 * `[GET] /rest/mydb/users?simple` Idem, but it's just a list of documents.
 * `[POST] /rest/mydb/users` Adds a new document into collection `users`.
+* `[GET] /rest/mydb/users/$schema` Gets a collection's schema specification.
 * `[PUT] /rest/mydb/users/:id` Changes the content of certain document in
 collection `users`.
 * `[DELETE] /rest/mydb/users/:id` Removes certain document from collection

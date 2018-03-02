@@ -7,14 +7,15 @@ const chaiHttp = require('chai-http');
 const path = require('path');
 
 const assert = chai.assert;
+const port = process.env.PORT || 3000;
 
 chai.use(chaiHttp);
 
 // ---------------------------------------------------------------------------- //
 // Testing.
-describe('dfdb: Simple connection', function () {
+describe('dfdb: Simple connection [001]', function () {
     it('requesting the default endpoint', (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .get('/rest/basics')
             .end((err, res) => {
                 assert.isNull(err);

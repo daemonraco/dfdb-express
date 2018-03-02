@@ -1,6 +1,6 @@
 {
     "name": "dfdb-express",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "This is a simple extension to easily expose a DocsOnFileDB through Express as a RESTful API.",
     "main": "lib/index",
     "types": "lib/index",
@@ -29,7 +29,7 @@
         "typescript": "^2.4.1"
     },
     "dependencies": {
-        "dfdb": "^0.1.4",
+        "dfdb": "^0.1.7",
         "es6-promise": "^4.2.4",
         "express": "^4.16.2"
     }

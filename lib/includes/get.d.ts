@@ -14,4 +14,5 @@ export declare class Get extends Method {
     }): Promise<Response>;
     protected document(collectionName: string, documentId: string): Promise<Response>;
     protected listCollections(simple?: boolean): Promise<Response>;
+    protected schema(collectionName: string): Promise<Response>;
 }

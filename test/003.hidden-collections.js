@@ -7,14 +7,15 @@ const chaiHttp = require('chai-http');
 const path = require('path');
 
 const assert = chai.assert;
+const port = process.env.PORT || 3000;
 
 chai.use(chaiHttp);
 
 // ---------------------------------------------------------------------------- //
 // Testing.
-describe('dfdb: RESTful interaction with hidden collections', function () {
+describe('dfdb: RESTful interaction with hidden collections [003]', function () {
     it('Listing updated collections', (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens')
             .end((err, res) => {
                 assert.isNull(err);
@@ -43,7 +44,7 @@ describe('dfdb: RESTful interaction with hidden collections', function () {
     });
 
     it('Listing updated collections (as simple response)', (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens?simple')
             .end((err, res) => {
                 assert.isNull(err);
@@ -64,7 +65,7 @@ describe('dfdb: RESTful interaction with hidden collections', function () {
     });
 
     it(`Listing contents on 'users' collection`, (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens/users')
             .end((err, res) => {
                 assert.isNull(err);
@@ -108,7 +109,7 @@ describe('dfdb: RESTful interaction with hidden collections', function () {
     });
 
     it(`Listing contents on 'users' collection (as simple response)`, (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens/users?simple')
             .end((err, res) => {
                 assert.isNull(err);
@@ -142,7 +143,7 @@ describe('dfdb: RESTful interaction with hidden collections', function () {
     });
 
     it(`Listing contents on 'profiles' collection`, (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens/profiles')
             .end((err, res) => {
                 assert.isNull(err);
@@ -172,7 +173,7 @@ describe('dfdb: RESTful interaction with hidden collections', function () {
     });
 
     it(`Listing contents on 'profiles' collection (as simple response)`, (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens/profiles?simple')
             .end((err, res) => {
                 assert.isNull(err);
@@ -192,7 +193,7 @@ describe('dfdb: RESTful interaction with hidden collections', function () {
     });
 
     it('Inserting a profile', (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .post('/rest/hiddens/profiles')
             .send({
                 user: 'Some other user',
@@ -226,7 +227,7 @@ describe('dfdb: RESTful interaction with hidden collections', function () {
     });
 
     it('Updating a profile', (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .put('/rest/hiddens/profiles/1')
             .send({
                 user: 'Some other user',
@@ -260,7 +261,7 @@ describe('dfdb: RESTful interaction with hidden collections', function () {
     });
 
     it('Deleting a profile', (done) => {
-        chai.request('http://localhost:3000')
+        chai.request(`http://localhost:${port}`)
             .delete('/rest/hiddens/profiles/1')
             .end((err, res) => {
                 assert.isNotNull(err);
