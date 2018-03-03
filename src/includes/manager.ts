@@ -4,7 +4,7 @@
  */
 
 import { Promise } from 'es6-promise';
-import { DocsOnFileDB } from 'dfdb';
+import { Connection, DocsOnFileDB } from 'dfdb';
 
 import { Delete } from './delete';
 import { Get } from './get';
@@ -29,7 +29,7 @@ export class Manager {
         this.parseOptions();
 
         DocsOnFileDB.connect(this._dbname, this._dbpath)
-            .then(conn => {
+            .then((conn: Connection) => {
                 this._connection = conn;
 
                 this._processors['GET'] = new Get(this._connection, this._hiddenCollections);
@@ -38,7 +38,9 @@ export class Manager {
                 this._processors['PATCH'] = this._processors['PUT'];
                 this._processors['DELETE'] = new Delete(this._connection, this._hiddenCollections);
             })
-            .catch(err => { throw err; });
+            .catch((err: any) => {
+                throw `${err}`;
+            });
 
         this._fullUrlPattern = RegExp(`^${this._restPath}(.*)`);
     }

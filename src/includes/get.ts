@@ -19,17 +19,24 @@ export class Get extends Method {
         const query = typeof params.queryParams.query === 'undefined' ? null : params.queryParams.query;
 
         if (params.collection) {
-            if (params.id) {
-                switch (params.id) {
-                    case '$schema':
-                        results = this.schema(params.collection);
-                        break;
-                    default:
-                        results = this.document(params.collection, params.id);
-                        break;
-                }
-            } else {
-                results = this.collection(params.collection, simple, { filter, query });
+            switch (params.collection) {
+                case '$info':
+                    results = this.connectionInfo();
+                    break;
+                default:
+                    if (params.id) {
+                        switch (params.id) {
+                            case '$schema':
+                                results = this.schema(params.collection);
+                                break;
+                            default:
+                                results = this.document(params.collection, params.id);
+                                break;
+                        }
+                    } else {
+                        results = this.collection(params.collection, simple, { filter, query });
+                    }
+                    break;
             }
         } else {
             results = this.listCollections(simple);
@@ -79,6 +86,18 @@ export class Get extends Method {
                 result.body = buildBody({ searchMechanism, conditions, docs: [] });
                 resolve(result);
             }
+        });
+    }
+    protected connectionInfo(): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            result.body = {
+                collections: this._connection.collections(),
+                initializer: this._connection.hasInitiaizer() ? this._connection.initiaizer().toJSON() : null
+            };
+
+            resolve(result);
         });
     }
     protected document(collectionName: string, documentId: string): Promise<Response> {
