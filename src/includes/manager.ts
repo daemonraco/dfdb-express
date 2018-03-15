@@ -11,18 +11,20 @@ import { Get } from './get';
 import { Method } from './method';
 import { Post } from './post';
 import { Put } from './put';
-import { Response } from './response';
+import { Response, UIData } from './response';
 
 export class Manager {
     protected _connection: any = null;
     protected _dbname: string = null;
     protected _dbpath: string = null;
+    protected _fullUiUrlPattern: RegExp = null;
     protected _fullUrlPattern: RegExp = null;
     protected _hiddenCollections: string[] = [];
     protected _processors: { [name: string]: Method } = {};
     protected _options: any = {};
     protected _restPath: string = null;
     protected _subUrlPattern: RegExp = /^\/(.+)(\/.*|)/;
+    protected _uiPath: string = null;
 
     constructor(options: { [name: string]: any }) {
         this._options = options;
@@ -43,6 +45,7 @@ export class Manager {
             });
 
         this._fullUrlPattern = RegExp(`^${this._restPath}(.*)`);
+        this._fullUiUrlPattern = this._uiPath ? RegExp(`^${this._uiPath}(.*)`) : null;
     }
 
     public process(req: { [name: string]: any }, res: { [name: string]: any }): Promise<Response> {
@@ -51,6 +54,7 @@ export class Manager {
         return new Promise<Response>((resolve: (result: Response) => void, reject: (err: Response) => void) => {
             let results: Response = new Response();
             const fullUrlMatches = req.url.split('?').shift().match(this._fullUrlPattern);
+            const fullUiUrlMatches = this._fullUiUrlPattern ? req.url.split('?').shift().match(this._fullUiUrlPattern) : null;
 
             if (fullUrlMatches) {
                 let subUrl: string = fullUrlMatches[1];
@@ -78,6 +82,14 @@ export class Manager {
                     results.skip = true;
                     reject(results);
                 }
+            } else if (fullUiUrlMatches) {
+                results.ui = new UIData();
+
+                results.ui.restUri = this._restPath;
+                results.ui.uri = this._uiPath;
+                results.ui.subUri = fullUiUrlMatches[1];
+
+                resolve(results);
             } else {
                 results.skip = true;
                 reject(results);
@@ -93,7 +105,7 @@ export class Manager {
      * @method parseOptions
      */
     protected parseOptions(): void {
-        const { dbname, dbpath, restPath, hide } = this._options;
+        const { dbname, dbpath, restPath, uiPath, hide } = this._options;
         //
         // Mandatory options.
         if (dbname === undefined) {
@@ -110,6 +122,11 @@ export class Manager {
             throw `Required option 'restPath' was not given`;
         } else {
             this._restPath = restPath;
+        }
+        if (uiPath) {
+            this._uiPath = uiPath;
+        } else {
+            this._uiPath = null;
         }
         //
         // Optional options.

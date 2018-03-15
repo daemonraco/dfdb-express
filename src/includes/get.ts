@@ -29,6 +29,9 @@ export class Get extends Method {
                             case '$schema':
                                 results = this.schema(params.collection);
                                 break;
+                            case '$create':
+                                results = this.createCollection(params.collection);
+                                break;
                             default:
                                 results = this.document(params.collection, params.id);
                                 break;
@@ -46,6 +49,23 @@ export class Get extends Method {
     }
     //
     // Protected methods.
+    protected createCollection(collectionName: string): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            const collections = this._connection.collections();
+
+            if (typeof collections[collectionName] === 'undefined') {
+                this._connection.collection(collectionName)
+                    .then((col: any) => {
+                        result.body = { created: true };
+                        resolve(result);
+                    }).catch((err: string) => this.rejectWithCode500(err, reject));
+            } else {
+                this.rejectWithCode500(`Collection '${collectionName}' already exits`, reject)
+            }
+        });
+    }
     protected collection(collectionName: string, simple: boolean = false, conditionSets: { [name: string]: any }): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();

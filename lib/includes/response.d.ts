@@ -7,4 +7,10 @@ export declare class Response {
     errorBody: any;
     skip: boolean;
     status: number;
+    ui: UIData;
+}
+export declare class UIData {
+    restUri: string;
+    subUri: string;
+    uri: string;
 }

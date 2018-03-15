@@ -1,0 +1,22 @@
+<ui-last-url delay="1000"></ui-last-url>
+
+<div *ngFor="let collection of collections" class="mt-2">
+    <ui-collection [collection]="collection.name"></ui-collection>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        Create Collection
+    </div>
+    <div class="card-body">
+        <form name="create-collection" (submit)="createCollection($event)">
+            <div class="form-group">
+                <label for="name">Collection Name</label>
+                <input type="text" name="name" [(ngModel)]="name" class="form-control form-control-sm" />
+                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+            </div>
+
+            <button type="submit" class="btn btn-sm btn-primary">Create</button>
+        </form>
+    </div>
+</div>

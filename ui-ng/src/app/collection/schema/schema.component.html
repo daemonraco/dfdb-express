@@ -1,0 +1,23 @@
+<div class="collection-action">
+    <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_SCHEMA'">
+        <strong>Schema:</strong>
+        <code class="font-italic">/rest/ui/$schema</code>
+    </div>
+    <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_SCHEMA'">
+        <form name="form_collection_SCHEMA" (submit)="submitQuery($event)">
+            <!-- <h5>Filter</h5> -->
+            <div class="form-group">
+                <textarea [(ngModel)]="schema" name="schema" class="form-control form-control-sm" rows="5"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-sm btn-outline-success">
+                <fa [name]="'save'"></fa> Save
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary float-right" (click)="tidy($event)">
+                <fa [name]="'code'"></fa> Tidy
+            </button>
+        </form>
+
+        <ui-results [results]="results" [error]="error"></ui-results>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="collection-action method-post">
+    <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_POST'">
+        <strong>POST:</strong>
+        <code class="font-italic">/rest/ui</code>
+    </div>
+    <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_POST'">
+        <form name="form_collection_POST" (submit)="submitQuery($event)">
+            <h5>Data</h5>
+            <div class="form-group">
+                <textarea [(ngModel)]="data" name="data" class="form-control form-control-sm" rows="5"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-sm btn-outline-danger">
+                <fa [name]="'save'"></fa> Create
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary float-right" (click)="tidy($event)">
+                <fa [name]="'code'"></fa> Tidy
+            </button>
+        </form>
+
+        <ui-results [results]="results" [error]="error"></ui-results>
+    </div>
+</div>

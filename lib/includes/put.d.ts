@@ -9,7 +9,10 @@ export declare class Put extends Method {
     process(params: {
         [name: string]: any;
     }): Promise<Response>;
-    protected update(collectionName: string, documentId: string, document: {
+    protected setSchema(collectionName: string, data: {
         [name: string]: any;
     }): Promise<Response>;
+    protected update(collectionName: string, documentId: string, document: {
+        [name: string]: any;
+    }, partial: boolean): Promise<Response>;
 }

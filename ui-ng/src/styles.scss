@@ -1,0 +1,77 @@
+@import 'styles/sticky-footer';
+//
+@import "node_modules/bootstrap/scss/bootstrap";
+//
+body {
+    .navbar {
+        border-bottom: theme-color("primary") 3px solid;
+        opacity: 0.8;
+    }
+    .mpReshape {
+        @extend .m-0;
+        @extend .p-0;
+    }
+    .collection {
+        @extend .card;
+        @extend .mb-2;
+        &>.card-body {
+            @extend .mpReshape;
+        }
+        .collection-action {
+            @extend .border; // @extend .border-success;
+            @extend .border-secondary;
+            @extend .d-flex;
+            @extend .flex-column;
+            @extend .m-1;
+            @extend .text-success;
+            &>div {
+                @extend .mpReshape;
+                @extend .p-2;
+            }
+            .collection-action-header {
+                @extend .bg-light;
+                @extend .text-secondary;
+                cursor: pointer;
+            }
+            .collection-action-body {
+                @extend .text-dark;
+            }
+            .collection-action-footer {
+                @extend .bg-light;
+                @extend .text-dark;
+            }
+            &.method-get {
+                @extend .border-success;
+                .collection-action-header {
+                    @extend .text-success;
+                }
+            }
+            &.method-post,
+            &.method-delete {
+                @extend .border-danger;
+                .collection-action-header {
+                    @extend .text-danger;
+                }
+            }
+            &.method-put {
+                @extend .border-warning;
+                .collection-action-header {
+                    @extend .text-warning;
+                }
+            }
+        }
+    }
+    .badge {
+        &.badge-method-get {
+            @extend .badge-success;
+        }
+        &.badge-method-delete,
+        &.badge-method-post {
+            @extend .badge-danger;
+        }
+        &.badge-method-put,
+        &.badge-method-patch {
+            @extend .badge-warning;
+        }
+    }
+}

@@ -26,7 +26,7 @@ export abstract class Method {
     protected rejectWithCode(code: number, err: string, reject: (err: Response) => void): void {
         const result: Response = new Response();
 
-        result.status = 403;
+        result.status = code;
         result.errorBody = { message: err };
 
         reject(result);

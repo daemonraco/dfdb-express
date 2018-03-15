@@ -9,6 +9,7 @@ export declare class Get extends Method {
     process(params: {
         [name: string]: any;
     }): Promise<Response>;
+    protected createCollection(collectionName: string): Promise<Response>;
     protected collection(collectionName: string, simple: boolean, conditionSets: {
         [name: string]: any;
     }): Promise<Response>;

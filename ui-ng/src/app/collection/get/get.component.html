@@ -1,0 +1,30 @@
+<div class="collection-action method-get">
+    <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_GET'">
+        <strong>GET:</strong>
+        <code class="font-italic">/rest/ui</code>
+    </div>
+    <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_GET'">
+        <form name="form_collection_GET" (submit)="submitQuery($event)">
+            <h5>Filter</h5>
+            <div class="form-group">
+                <select [(ngModel)]="simple" name="simple" class="form-control form-control-sm">
+                    <option [ngValue]="false">Complete</option>
+                    <option [ngValue]="true">Simple</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <textarea [(ngModel)]="filter" name="filter" class="form-control form-control-sm" rows="5" placeholder="{}"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-sm btn-outline-success">
+                <fa [name]="'search'"></fa> Search
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary float-right" (click)="tidy($event)">
+                <fa [name]="'code'"></fa> Tidy
+            </button>
+        </form>
+
+        <ui-results [results]="results" [error]="error"></ui-results>
+    </div>
+</div>

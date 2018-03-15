@@ -9,6 +9,7 @@ export declare class Manager {
     protected _connection: any;
     protected _dbname: string;
     protected _dbpath: string;
+    protected _fullUiUrlPattern: RegExp;
     protected _fullUrlPattern: RegExp;
     protected _hiddenCollections: string[];
     protected _processors: {
@@ -17,6 +18,7 @@ export declare class Manager {
     protected _options: any;
     protected _restPath: string;
     protected _subUrlPattern: RegExp;
+    protected _uiPath: string;
     constructor(options: {
         [name: string]: any;
     });

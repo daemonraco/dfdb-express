@@ -1,0 +1,11 @@
+<hr *ngIf="results || error" />
+
+<div *ngIf="results">
+    <h5>Results</h5>
+    <pre class="border border-secondary text-secondary p-2 rounded">{{results}}</pre>
+</div>
+<div *ngIf="error" class="text-danger">
+    <h5>Error</h5>
+    <p>{{error.status}}: {{error.statusText}}</p>
+    <pre class="border border-danger text-danger p-2 rounded">{{error.body}}</pre>
+</div>

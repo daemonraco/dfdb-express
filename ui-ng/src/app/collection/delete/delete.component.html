@@ -1,0 +1,20 @@
+<div class="collection-action method-delete">
+    <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_DELETE'">
+        <strong>DELETE:</strong>
+        <code class="font-italic">/rest/ui/:id</code>
+    </div>
+    <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_DELETE'">
+            <form name="form_collection_DELETE" (submit)="submitQuery($event)">
+                <h5>Filter</h5>
+                <div class="form-group">
+                    <input [(ngModel)]="documentId" name="documentId" type="text" class="form-control form-control-sm" placeholder="id..." />
+                </div>
+    
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <fa [name]="'ban'"></fa> Delete
+                </button>
+            </form>
+    
+            <ui-results [results]="results" [error]="error"></ui-results>
+         </div>
+</div>

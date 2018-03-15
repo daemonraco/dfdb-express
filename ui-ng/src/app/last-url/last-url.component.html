@@ -1,0 +1,5 @@
+<span *ngIf="url" class="d-block p-2 bg-light text-dark rounded">
+    Last URL:
+    <code>{{url.url}}</code>
+    <span *ngIf="url.method" [class]="'badge badge-secondary ' + methodClass">{{url.method}}</span>
+</span>

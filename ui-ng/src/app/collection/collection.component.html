@@ -1,0 +1,17 @@
+<div class="collection">
+    <div class="card-header">
+        <button class="btn btn-sm btn-outline-secondary float-right" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName">
+            <fa [name]="'bars'"></fa>
+            Open/Close
+        </button>
+        <strong>Collection:</strong> {{collectionName}}
+    </div>
+    <div class="card-body collapse" [id]="'collection_' + collectionName">
+        <ui-collection-get [collection]="collectionName"></ui-collection-get>
+        <ui-collection-get-id [collection]="collectionName"></ui-collection-get-id>
+        <ui-collection-post [collection]="collectionName"></ui-collection-post>
+        <ui-collection-put [collection]="collectionName"></ui-collection-put>
+        <ui-collection-delete [collection]="collectionName"></ui-collection-delete>
+        <ui-collection-schema [collection]="collectionName"></ui-collection-schema>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="collection-action method-put">
+    <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_PUT'">
+        <strong>PUT:</strong>
+        <code class="font-italic">/rest/ui/:id</code>
+    </div>
+    <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_PUT'">
+        <form name="form_collection_PUT" (submit)="submitQuery($event)">
+            <h5>Filter</h5>
+            <div class="form-group">
+                <input [(ngModel)]="documentId" name="documentId" type="text" class="form-control form-control-sm" placeholder="id..." />
+            </div>
+
+            <div class="form-group">
+                <select [(ngModel)]="partial" name="partial" class="form-control form-control-sm">
+                    <option [ngValue]="true">Partial set of fields</option>
+                    <option [ngValue]="false">Complete set of fields</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <textarea [(ngModel)]="data" name="data" class="form-control form-control-sm" rows="5"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-sm btn-outline-warning">
+                <fa [name]="'save'"></fa> Update
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary float-right" (click)="tidy($event)">
+                <fa [name]="'code'"></fa> Tidy
+            </button>
+        </form>
+
+        <ui-results [results]="results" [error]="error"></ui-results>
+    </div>
+</div>
