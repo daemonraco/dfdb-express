@@ -42,7 +42,6 @@ export class ConnectionService {
         if (token) {
             headers['Authorization'] = token;
         }
-        console.log('DEBUG', JSON.stringify(headers, null, 2));
 
         return new RequestOptions({
             headers: new Headers(headers)
