@@ -4,7 +4,7 @@
             <fa [name]="'user'"></fa> Login
         </div>
 
-        <div class="card-body">
+        <div class="card-body" *ngIf="!token">
             <form *ngIf="authType == 'basic'" (submit)="login($event)">
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -27,6 +27,13 @@
                     <fa [name]="'key'"></fa> Sign in
                 </button>
             </form>
+        </div>
+        <div class="card-body" *ngIf="token">
+            <p>You are already logged in</p>
+
+            <button type="button" class="btn btn-outline-secondary float-right" (click)="goHome($event)">
+                <fa [name]="'home'"></fa> Home
+            </button>
         </div>
     </div>
 </div>

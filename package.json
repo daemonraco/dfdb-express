@@ -33,7 +33,7 @@
         "typescript": "^2.4.1"
     },
     "dependencies": {
-        "dfdb": "^0.2.0",
+        "dfdb": "^0.2.1",
         "es6-promise": "^4.2.4",
         "express": "^4.16.2"
     }

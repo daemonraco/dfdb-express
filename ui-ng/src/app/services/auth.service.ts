@@ -38,11 +38,12 @@ export class AuthService {
     public logout(): void {
         this.setToken(null);
     }
-    public token(): string {
-        return localStorage.getItem('token');
+    public token(): string | null {
+        let aux = localStorage.getItem('token');
+        return aux == 'null' ? null : aux;
     }
 
-    protected setToken(token: string): void {
+    protected setToken(token: string | null): void {
         localStorage.setItem('token', token);
     }
 }

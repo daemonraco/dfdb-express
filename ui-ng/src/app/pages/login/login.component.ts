@@ -23,6 +23,9 @@ export class LoginComponent implements OnInit {
         private authSrv: AuthService) {
     }
 
+    public goHome(event) {
+        this.router.navigateByUrl('/');
+    }
     public login(event): void {
         if (this.authType == 'basic') {
             this.authSrv.loginBasic(this.password)
@@ -46,5 +49,6 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.token = this.authSrv.token();
     }
 }
