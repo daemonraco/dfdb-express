@@ -27,6 +27,14 @@ export class AuthService {
                 });
         });
     }
+    public loginCustom(token: string): Observable<boolean> {
+        return new Observable<boolean>((observer: Observer<boolean>) => {
+            this.setToken(token);
+
+            observer.next(true);
+            observer.complete();
+        });
+    }
     public logout(): void {
         this.setToken(null);
     }

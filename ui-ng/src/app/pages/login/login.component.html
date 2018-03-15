@@ -1,7 +1,7 @@
 <div class="mx-auto col-xs-12 col-sm-8 col-md-6 col-lg-4">
     <div class="card">
         <div class="card-header">
-            <fa [name]="'key'"></fa> Login
+            <fa [name]="'user'"></fa> Login
         </div>
 
         <div class="card-body">
@@ -9,11 +9,22 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input [(ngModel)]="password" type="password" class="form-control form-control-sm" name="password" placeholder="Basic password...">
-                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    <small class="form-text text-muted">Provide the basic password this API requires for access.</small>
                 </div>
 
                 <button type="submit" class="btn btn-primary">
-                    <fa [name]="'sign-in-alt'"></fa> Submit
+                    <fa [name]="'key'"></fa> Sign in
+                </button>
+            </form>
+            <form *ngIf="authType == 'custom'" (submit)="login($event)">
+                <div class="form-group">
+                    <label for="token">Token</label>
+                    <textarea [(ngModel)]="token" type="token" class="form-control form-control-sm" name="token" placeholder="Token..."></textarea>
+                    <small class="form-text text-muted">Provide the authenticaiton token this API provided you through some other mechanism.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <fa [name]="'key'"></fa> Sign in
                 </button>
             </form>
         </div>

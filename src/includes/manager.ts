@@ -41,6 +41,7 @@ const ManagerAuthTokens: AuthTokenList = {};
 
 export class Manager {
     protected _auth: (req: ValuesList) => boolean = null;
+    protected _catchToken: (token: string) => void = null;
     protected _authType: string = null;
     protected _authUrlPattern: RegExp = null;
     protected _connection: any = null;
@@ -109,6 +110,8 @@ export class Manager {
                     } else if (this._auth(req)) {
                         const aux = new AuthToken();
                         ManagerAuthTokens[aux.code()] = aux;
+                        this._catchToken(aux.code());
+
                         results.body = {
                             authorized: true,
                             token: aux.code()
@@ -185,7 +188,7 @@ export class Manager {
      * @method parseOptions
      */
     protected parseOptions(): void {
-        const { dbname, dbpath, restPath, uiPath, hide, auth, /*authType,*/ password } = this._options;
+        const { dbname, dbpath, restPath, uiPath, hide, auth, catchToken, password } = this._options;
         //
         // Mandatory options.
         if (dbname === undefined) {
@@ -208,6 +211,7 @@ export class Manager {
         } else {
             this._uiPath = null;
         }
+
         if (auth) {
             this._authType = 'custom';
             this._auth = auth;
@@ -221,6 +225,11 @@ export class Manager {
             this._auth = null;
         }
 
+        if (typeof catchToken === 'function') {
+            this._catchToken = catchToken;
+        } else {
+            this._catchToken = (token: string) => { };
+        }
 
         // if (auth) {
         //     this._auth = auth;

@@ -14,6 +14,7 @@ declare var DFDBConfig: any;
 export class LoginComponent implements OnInit {
     public authType: string = DFDBConfig.authType;
     public password: string = '';
+    public token: string = '';
 
     constructor(
         private router: Router,
@@ -23,6 +24,13 @@ export class LoginComponent implements OnInit {
     public login(event): void {
         if (this.authType == 'basic') {
             this.authSrv.loginBasic(this.password)
+                .subscribe((ok: boolean) => {
+                    if (ok) {
+                        this.router.navigateByUrl('/');
+                    }
+                });
+        } else if (this.authType == 'custom') {
+            this.authSrv.loginCustom(this.token)
                 .subscribe((ok: boolean) => {
                     if (ok) {
                         this.router.navigateByUrl('/');

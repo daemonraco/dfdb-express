@@ -21,6 +21,7 @@ export declare type ValuesList = {
 };
 export declare class Manager {
     protected _auth: (req: ValuesList) => boolean;
+    protected _catchToken: (token: string) => void;
     protected _authType: string;
     protected _authUrlPattern: RegExp;
     protected _connection: any;
