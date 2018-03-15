@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { CollectionService } from '../../services/collection.service';
-import { ErrorModalService } from '../../services/error-modal.service';
+import { ModalErrorService } from '../../services/modal-error.service';
 
 @Component({
     selector: 'ui-collection-get',
@@ -19,7 +19,7 @@ export class CollectionGetComponent implements OnInit {
 
     constructor(
         private collectionSrv: CollectionService,
-        private emSrv: ErrorModalService) {
+        private meSrv: ModalErrorService) {
     }
 
     public submitQuery(event): void {
@@ -28,7 +28,7 @@ export class CollectionGetComponent implements OnInit {
 
         let parsedFilter: any = null;
         try { parsedFilter = JSON.parse(this.filter); } catch (e) {
-            this.emSrv.show([
+            this.meSrv.show([
                 `Given filters JSON seems to be invalid.`,
                 `${e}`
             ]);

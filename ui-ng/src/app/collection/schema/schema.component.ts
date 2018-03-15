@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { CollectionService } from '../../services/collection.service';
-import { ErrorModalService } from '../../services/error-modal.service';
+import { ModalErrorService } from '../../services/modal-error.service';
 
 @Component({
     selector: 'ui-collection-schema',
@@ -18,7 +18,7 @@ export class CollectionSchemaComponent implements OnInit {
 
     constructor(
         private collectionSrv: CollectionService,
-        private emSrv: ErrorModalService) {
+        private meSrv: ModalErrorService) {
     }
 
     public submitQuery(event): void {
@@ -34,7 +34,7 @@ export class CollectionSchemaComponent implements OnInit {
                 parsedSchema = JSON.parse(this.schema.trim());
                 parsedSchemaFailed = false;
             } catch (e) {
-                this.emSrv.show([
+                this.meSrv.show([
                     `Given schema JSON seems to be invalid.`,
                     `${e}`
                 ]);

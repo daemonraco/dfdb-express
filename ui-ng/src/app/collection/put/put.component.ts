@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { CollectionService } from '../../services/collection.service';
-import { ErrorModalService } from '../../services/error-modal.service';
+import { ModalErrorService } from '../../services/modal-error.service';
 
 @Component({
     selector: 'ui-collection-put',
@@ -20,7 +20,7 @@ export class CollectionPutComponent implements OnInit {
 
     constructor(
         private collectionSrv: CollectionService,
-        private emSrv: ErrorModalService) {
+        private emSrv: ModalErrorService) {
     }
 
     public submitQuery(event): void {

@@ -1,0 +1,21 @@
+<div id="confirm-modal" class="modal text-primary fade" tabindex="-1" role="dialog" #modal>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation: {{data.title}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p *ngFor="let msg of data.message">{{msg}}</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary float-left" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-outline-primary float-right" data-dismiss="modal" (click)="confirmed = true">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

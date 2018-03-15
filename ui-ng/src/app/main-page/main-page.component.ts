@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ConnectionService } from '../services/connection.service';
-import { ErrorModalService } from '../services/error-modal.service';
+import { ModalErrorService } from '../services/modal-error.service';
 
 @Component({
     selector: 'ui-main-page',
@@ -16,7 +16,7 @@ export class MainPageComponent implements OnInit {
 
     constructor(
         private conn: ConnectionService,
-        private emSrv: ErrorModalService) {
+        private emSrv: ModalErrorService) {
     }
 
     public createCollection(event): void {

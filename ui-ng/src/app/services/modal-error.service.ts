@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-export class ErrorModalData {
+export class ModalErrorData {
     active: boolean = false;
     message: string[] = [];
     title: string = '';
 }
 
 @Injectable()
-export class ErrorModalService {
-    protected _dataSource: BehaviorSubject<ErrorModalData> = new BehaviorSubject<ErrorModalData>(new ErrorModalData());
+export class ModalErrorService {
+    protected _dataSource: BehaviorSubject<ModalErrorData> = new BehaviorSubject<ModalErrorData>(new ModalErrorData());
     protected _currentData: any = this._dataSource.asObservable();
 
     constructor() {
@@ -19,7 +19,7 @@ export class ErrorModalService {
         return this._currentData;
     }
     public hide() {
-        const data: ErrorModalData = new ErrorModalData();
+        const data: ModalErrorData = new ModalErrorData();
 
         data.active = false;
         data.title = null;
@@ -28,7 +28,7 @@ export class ErrorModalService {
         this._dataSource.next(data);
     }
     public show(message: string | string[], title: string = null) {
-        const data: ErrorModalData = new ErrorModalData();
+        const data: ModalErrorData = new ModalErrorData();
 
         data.active = true;
         data.title = title;

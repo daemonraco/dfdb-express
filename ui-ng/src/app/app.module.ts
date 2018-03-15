@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { CollectionComponent } from './collection/collection.component';
+import { CollectionActionsComponent } from './collection/actions/actions.component';
 import { CollectionDeleteComponent } from './collection/delete/delete.component';
 import { CollectionGetComponent } from './collection/get/get.component';
 import { CollectionGetIdComponent } from './collection/get-id/get-id.component';
@@ -15,14 +16,16 @@ import { CollectionPostComponent } from './collection/post/post.component';
 import { CollectionPutComponent } from './collection/put/put.component';
 import { CollectionResultsComponent } from './collection/results/results.component';
 import { CollectionSchemaComponent } from './collection/schema/schema.component';
-import { ErrorModalComponent } from './error-modal/error-modal.component';
 import { FooterComponent } from './footer/footer.component';
 import { LastUrlComponent } from './last-url/last-url.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { ModalConfirmComponent } from './modals/confirm/confirm.component';
+import { ModalErrorComponent } from './modals/error/error.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
-import { ErrorModalService } from './services/error-modal.service';
 import { LastUrlService } from './services/last-url.service';
+import { ModalErrorService } from './services/modal-error.service';
+import { ModalConfirmService } from './services/modal-confirm.service';
 
 @NgModule({
     declarations: [
@@ -35,11 +38,13 @@ import { LastUrlService } from './services/last-url.service';
         CollectionPutComponent,
         CollectionResultsComponent,
         CollectionSchemaComponent,
-        ErrorModalComponent,
         FooterComponent,
         LastUrlComponent,
         MainPageComponent,
-        NavbarComponent
+        ModalConfirmComponent,
+        ModalErrorComponent,
+        NavbarComponent,
+        CollectionActionsComponent
     ],
     imports: [
         BrowserModule,
@@ -49,8 +54,9 @@ import { LastUrlService } from './services/last-url.service';
         AppRoutingModule
     ],
     providers: [
-        ErrorModalService,
-        LastUrlService
+        LastUrlService,
+        ModalConfirmService,
+        ModalErrorService
     ],
     bootstrap: [AppComponent]
 })
