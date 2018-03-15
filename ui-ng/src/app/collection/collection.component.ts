@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'ui-collection',
@@ -7,8 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CollectionComponent implements OnInit {
     @Input('collection') public collectionName: string;
+    @Output('reloadCollections') public reloadCollections: EventEmitter<any> = new EventEmitter<any>();
 
     constructor() {
+    }
+
+    public forwardReloadCollections(event): void {
+        this.reloadCollections.emit(event);
     }
 
     ngOnInit() {

@@ -20,6 +20,11 @@ export class ConnectionService {
         this.luSrv.setUrl(url, 'get');
         return this.http.get(url).map(data => data.json());
     }
+    public dropCollection(name: string): Observable<any> {
+        const url: string = `${DFDBConfig.restUri}/${name}/\$drop`;
+        this.luSrv.setUrl(url, 'delete');
+        return this.http.delete(url).map(data => data.json());
+    }
     public info(): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/\$info`;
         this.luSrv.setUrl(url, 'get');

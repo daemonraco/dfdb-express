@@ -2,7 +2,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmation: {{data.title}}</h5>
+                <h5 class="modal-title" *ngIf="data.title">{{data.title}}</h5>
+                <h5 class="modal-title" *ngIf="!data.title">Confirmation</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,8 +14,12 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary float-left" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-outline-primary float-right" data-dismiss="modal" (click)="confirmed = true">Yes</button>
+                <button type="button" class="btn btn-outline-secondary float-left" data-dismiss="modal">
+                    <fa [name]="'times'"></fa> No
+                </button>
+                <button type="button" class="btn btn-outline-success float-right" data-dismiss="modal" (click)="confirmed = true">
+                    <fa [name]="'check'"></fa> Yes
+                </button>
             </div>
         </div>
     </div>

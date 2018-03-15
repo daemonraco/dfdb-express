@@ -30,12 +30,7 @@ export class MainPageComponent implements OnInit {
                 ], `${error.status}: ${error.statusText}`);
             });
     }
-
-    ngOnInit() {
-        this.loadCollections();
-    }
-
-    protected loadCollections(): void {
+    public loadCollections(): void {
         this.conn.info()
             .subscribe(data => {
                 this.collections = [];
@@ -45,5 +40,9 @@ export class MainPageComponent implements OnInit {
                         this.collections.push(data.collections[key]);
                     });
             });
+    }
+
+    ngOnInit() {
+        this.loadCollections();
     }
 }
