@@ -10,6 +10,8 @@ import { LastUrlData, LastUrlService } from '../services/last-url.service';
 export class LastUrlComponent implements OnDestroy, OnInit {
     @Input('delay') public delay: number = 500;
 
+    protected urlSub: any = null;
+
     public methodClass: string = '';
     public pendingUrls: LastUrlData[] = [];
     public url: LastUrlData = null;
@@ -18,10 +20,11 @@ export class LastUrlComponent implements OnDestroy, OnInit {
     }
 
     ngOnDestroy() {
-        this.luSrv.currentUrl().unsubscribe();
+        this.urlSub.unsubscribe();
+        this.urlSub = null;
     }
     ngOnInit() {
-        this.luSrv.currentUrl().subscribe((url: LastUrlData) => this.pendingUrls.push(url));
+        this.urlSub = this.luSrv.currentUrl().subscribe((url: LastUrlData) => this.pendingUrls.push(url));
         this.startUrlRound();
     }
 

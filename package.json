@@ -11,6 +11,7 @@
         "live:server": "./test/assets/start-live.sh",
         "pretest": "./test/assets/start.sh",
         "build:ui": "bash .tools/build-ui.sh",
+        "build:ui:live": "bash .tools/build-ui.sh live",
         "test": "./node_modules/mocha/bin/mocha || true",
         "posttest": "./test/assets/stop.sh"
     },

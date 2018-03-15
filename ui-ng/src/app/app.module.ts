@@ -7,6 +7,9 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { AuthGuard } from './app.guard';
+import { AuthService } from './services/auth.service';
+
 import { CollectionComponent } from './collection/collection.component';
 import { CollectionActionsComponent } from './collection/actions/actions.component';
 import { CollectionDeleteComponent } from './collection/delete/delete.component';
@@ -26,6 +29,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LastUrlService } from './services/last-url.service';
 import { ModalErrorService } from './services/modal-error.service';
 import { ModalConfirmService } from './services/modal-confirm.service';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
     declarations: [
@@ -44,7 +48,8 @@ import { ModalConfirmService } from './services/modal-confirm.service';
         ModalConfirmComponent,
         ModalErrorComponent,
         NavbarComponent,
-        CollectionActionsComponent
+        CollectionActionsComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,
@@ -54,6 +59,8 @@ import { ModalConfirmService } from './services/modal-confirm.service';
         AppRoutingModule
     ],
     providers: [
+        AuthGuard,
+        AuthService,
         LastUrlService,
         ModalConfirmService,
         ModalErrorService

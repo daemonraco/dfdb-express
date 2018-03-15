@@ -12,6 +12,7 @@ export class Response {
 }
 
 export class UIData {
+    public authType: string = null;
     public restUri: string = '/';
     public subUri: string = '/';
     public uri: string = '/';

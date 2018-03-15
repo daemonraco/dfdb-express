@@ -10,6 +10,7 @@ export declare class Response {
     ui: UIData;
 }
 export declare class UIData {
+    authType: string;
     restUri: string;
     subUri: string;
     uri: string;

@@ -10,7 +10,7 @@
             </div>
 
             <div class="modal-body">
-                <p *ngFor="let msg of data.message">{{msg}}</p>
+                <p *ngFor="let msg of data.message" [innerHTML]="msg"></p>
             </div>
 
             <div class="modal-footer">

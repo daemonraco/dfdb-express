@@ -32,7 +32,8 @@ export = {
 
                         content += `const DFDBConfig = {\n`;
                         content += `\trestUri: '${response.ui.restUri}',\n`;
-                        content += `\tuiUri: '${response.ui.uri}'\n`;
+                        content += `\tuiUri: '${response.ui.uri}',\n`;
+                        content += `\tauthType: '${response.ui.authType}'\n`;
                         content += `};\n`;
 
                         res.contentType('text/javascript');

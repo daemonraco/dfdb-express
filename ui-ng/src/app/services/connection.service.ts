@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, /*Headers, RequestOptions, */Response } from '@angular/http';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-// import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 
+import { AuthService } from './auth.service';
 import { LastUrlService } from './last-url.service';
 
 declare var DFDBConfig;
@@ -11,6 +11,7 @@ declare var DFDBConfig;
 @Injectable()
 export class ConnectionService {
     constructor(
+        private authSrv: AuthService,
         private luSrv: LastUrlService,
         private http: Http) {
     }
@@ -18,16 +19,33 @@ export class ConnectionService {
     public createCollection(name: string): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/${name}/\$create`;
         this.luSrv.setUrl(url, 'get');
-        return this.http.get(url).map(data => data.json());
+        return this.http.get(url, this.headers()).map(data => data.json());
     }
     public dropCollection(name: string): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/${name}/\$drop`;
         this.luSrv.setUrl(url, 'delete');
-        return this.http.delete(url).map(data => data.json());
+        return this.http.delete(url, this.headers()).map(data => data.json());
     }
     public info(): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/\$info`;
         this.luSrv.setUrl(url, 'get');
-        return this.http.get(url).map(data => data.json());
+        return this.http.get(url, this.headers()).map(data => data.json());
+    }
+
+    protected headers(): RequestOptions {
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        };
+
+        const token = this.authSrv.token();
+        if (token) {
+            headers['Authorization'] = token;
+        }
+        console.log('DEBUG', JSON.stringify(headers, null, 2));
+
+        return new RequestOptions({
+            headers: new Headers(headers)
+        });
     }
 }

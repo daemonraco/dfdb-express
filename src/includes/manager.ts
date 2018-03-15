@@ -13,7 +13,36 @@ import { Post } from './post';
 import { Put } from './put';
 import { Response, UIData } from './response';
 
+export class AuthToken {
+    protected _code: string = null;
+    protected _expirationDate: Date = null;
+
+    constructor() {
+        this._code = `${Math.random().toString(36).substring(7)}${Math.random().toString(36).substring(7)}`;
+        this.refresh();
+    }
+
+    public code(): string {
+        return this._code;
+    }
+    public expired(): boolean {
+        const now = new Date();
+        return this._expirationDate < now;
+    }
+    public refresh(): void {
+        this._expirationDate = new Date();
+        this._expirationDate.setHours(this._expirationDate.getHours() + 1);
+    }
+}
+export type AuthTokenList = { [name: string]: AuthToken };
+export type ValuesList = { [name: string]: any };
+
+const ManagerAuthTokens: AuthTokenList = {};
+
 export class Manager {
+    protected _auth: (req: ValuesList) => boolean = null;
+    protected _authType: string = null;
+    protected _authUrlPattern: RegExp = null;
     protected _connection: any = null;
     protected _dbname: string = null;
     protected _dbpath: string = null;
@@ -26,7 +55,7 @@ export class Manager {
     protected _subUrlPattern: RegExp = /^\/(.+)(\/.*|)/;
     protected _uiPath: string = null;
 
-    constructor(options: { [name: string]: any }) {
+    constructor(options: ValuesList) {
         this._options = options;
         this.parseOptions();
 
@@ -46,41 +75,91 @@ export class Manager {
 
         this._fullUrlPattern = RegExp(`^${this._restPath}(.*)`);
         this._fullUiUrlPattern = this._uiPath ? RegExp(`^${this._uiPath}(.*)`) : null;
+        this._authUrlPattern = RegExp(`^${this._restPath}-auth/(login|logout)`);
     }
 
-    public process(req: { [name: string]: any }, res: { [name: string]: any }): Promise<Response> {
+    public process(req: ValuesList, res: ValuesList): Promise<Response> {
         //
         // Building promise to return.
         return new Promise<Response>((resolve: (result: Response) => void, reject: (err: Response) => void) => {
             let results: Response = new Response();
             const fullUrlMatches = req.url.split('?').shift().match(this._fullUrlPattern);
+            const authUrlMatches = this._authUrlPattern ? req.url.split('?').shift().match(this._authUrlPattern) : null;
             const fullUiUrlMatches = this._fullUiUrlPattern ? req.url.split('?').shift().match(this._fullUiUrlPattern) : null;
 
-            if (fullUrlMatches) {
-                let subUrl: string = fullUrlMatches[1];
-                let subUrlPieces: string[] = subUrl.split('/').filter(x => x);
-
-                let method: string = req.method;
-                let collection: string = typeof subUrlPieces[0] !== 'undefined' ? subUrlPieces[0] : null;
-                let id: string = typeof subUrlPieces[1] !== 'undefined' ? subUrlPieces[1] : null;
-                let queryParams: { [name: string]: string } = req.query;
-                let body: { [name: string]: string } = req.body;
-
-                if (typeof req.body !== 'object' && typeof req.headers['content-type'] !== 'undefined' && req.headers['content-type'] === 'application/json') {
-                    try {
-                        body = JSON.parse(req.body);
-                    } catch (e) {
-                        body = {};
+            let headerAuthorized: boolean = this._auth ? false : true;
+            if (!headerAuthorized && typeof req.headers['authorization'] !== 'undefined') {
+                if (typeof ManagerAuthTokens[req.headers['authorization']] !== 'undefined') {
+                    if (ManagerAuthTokens[req.headers['authorization']].expired()) {
+                        delete ManagerAuthTokens[req.headers['authorization']];
+                    } else {
+                        ManagerAuthTokens[req.headers['authorization']].refresh();
+                        headerAuthorized = true;
                     }
                 }
+            }
 
-                if (typeof this._processors[method] !== 'undefined') {
-                    this._processors[method].process({ collection, id, queryParams, body })
-                        .then(resolve)
-                        .catch(reject);
+            if (authUrlMatches) {
+                if (this._auth) {
+                    if (headerAuthorized) {
+                        results.errorBody = {
+                            authorized: true
+                        };
+                        resolve(results);
+                    } else if (this._auth(req)) {
+                        const aux = new AuthToken();
+                        ManagerAuthTokens[aux.code()] = aux;
+                        results.body = {
+                            authorized: true,
+                            token: aux.code()
+                        };
+                        resolve(results);
+                    } else {
+                        results.status = 403;
+                        results.errorBody = {
+                            message: `You are not authorized`
+                        };
+                        reject(results);
+                    }
                 } else {
-                    results.skip = true;
+                    results.status = 401;
+                    results.errorBody = `This API does not require authorization.`;
                     reject(results);
+                }
+            } else if (fullUrlMatches) {
+
+                if (!headerAuthorized) {
+                    results.status = 403;
+                    results.errorBody = {
+                        message: `You are not authorized`
+                    };
+                    reject(results);
+                } else {
+                    let subUrl: string = fullUrlMatches[1];
+                    let subUrlPieces: string[] = subUrl.split('/').filter(x => x);
+
+                    let method: string = req.method;
+                    let collection: string = typeof subUrlPieces[0] !== 'undefined' ? subUrlPieces[0] : null;
+                    let id: string = typeof subUrlPieces[1] !== 'undefined' ? subUrlPieces[1] : null;
+                    let queryParams: { [name: string]: string } = req.query;
+                    let body: { [name: string]: string } = req.body;
+
+                    if (typeof req.body !== 'object' && typeof req.headers['content-type'] !== 'undefined' && req.headers['content-type'] === 'application/json') {
+                        try {
+                            body = JSON.parse(req.body);
+                        } catch (e) {
+                            body = {};
+                        }
+                    }
+
+                    if (typeof this._processors[method] !== 'undefined') {
+                        this._processors[method].process({ collection, id, queryParams, body })
+                            .then(resolve)
+                            .catch(reject);
+                    } else {
+                        results.skip = true;
+                        reject(results);
+                    }
                 }
             } else if (fullUiUrlMatches) {
                 results.ui = new UIData();
@@ -88,6 +167,7 @@ export class Manager {
                 results.ui.restUri = this._restPath;
                 results.ui.uri = this._uiPath;
                 results.ui.subUri = fullUiUrlMatches[1];
+                results.ui.authType = this._authType;
 
                 resolve(results);
             } else {
@@ -105,7 +185,7 @@ export class Manager {
      * @method parseOptions
      */
     protected parseOptions(): void {
-        const { dbname, dbpath, restPath, uiPath, hide } = this._options;
+        const { dbname, dbpath, restPath, uiPath, hide, auth, /*authType,*/ password } = this._options;
         //
         // Mandatory options.
         if (dbname === undefined) {
@@ -128,6 +208,33 @@ export class Manager {
         } else {
             this._uiPath = null;
         }
+        if (auth) {
+            this._authType = 'custom';
+            this._auth = auth;
+        } else if (password) {
+            this._authType = 'basic';
+            this._auth = (req: ValuesList) => {
+                return req.body.password == password;
+            };
+        } else {
+            this._authType = 'noen';
+            this._auth = null;
+        }
+
+
+        // if (auth) {
+        //     this._auth = auth;
+        // } else {
+        //     this._auth = null;
+        // }
+        // if (authType) {
+        //     this._authType = authType;
+        // } else {
+        //     this._authType = null;
+        // }
+        // if (this._auth && !this._authType) {
+        //     this._authType = 'basic';
+        // }
         //
         // Optional options.
         if (hide !== undefined && Array.isArray(hide)) {

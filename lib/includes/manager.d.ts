@@ -5,7 +5,24 @@
 import { Promise } from 'es6-promise';
 import { Method } from './method';
 import { Response } from './response';
+export declare class AuthToken {
+    protected _code: string;
+    protected _expirationDate: Date;
+    constructor();
+    code(): string;
+    expired(): boolean;
+    refresh(): void;
+}
+export declare type AuthTokenList = {
+    [name: string]: AuthToken;
+};
+export declare type ValuesList = {
+    [name: string]: any;
+};
 export declare class Manager {
+    protected _auth: (req: ValuesList) => boolean;
+    protected _authType: string;
+    protected _authUrlPattern: RegExp;
     protected _connection: any;
     protected _dbname: string;
     protected _dbpath: string;
@@ -19,14 +36,8 @@ export declare class Manager {
     protected _restPath: string;
     protected _subUrlPattern: RegExp;
     protected _uiPath: string;
-    constructor(options: {
-        [name: string]: any;
-    });
-    process(req: {
-        [name: string]: any;
-    }, res: {
-        [name: string]: any;
-    }): Promise<Response>;
+    constructor(options: ValuesList);
+    process(req: ValuesList, res: ValuesList): Promise<Response>;
     /**
      * This method parse given parameters on instantiation.
      *
