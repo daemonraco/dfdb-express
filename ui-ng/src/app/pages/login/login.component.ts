@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { ModalErrorService } from '../../services/modal-error.service';
 
 declare var DFDBConfig: any;
 
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private router: Router,
+        private meSrv: ModalErrorService,
         private authSrv: AuthService) {
     }
 
@@ -27,6 +29,8 @@ export class LoginComponent implements OnInit {
                 .subscribe((ok: boolean) => {
                     if (ok) {
                         this.router.navigateByUrl('/');
+                    } else {
+                        this.meSrv.show(`Given password is not accepted.`);
                     }
                 });
         } else if (this.authType == 'custom') {
@@ -34,6 +38,8 @@ export class LoginComponent implements OnInit {
                 .subscribe((ok: boolean) => {
                     if (ok) {
                         this.router.navigateByUrl('/');
+                    } else {
+                        this.meSrv.show(`Given token is not accepted.`);
                     }
                 });
         }

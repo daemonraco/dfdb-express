@@ -100,7 +100,7 @@ export class Manager {
                 }
             }
 
-            if (authUrlMatches) {
+            if (authUrlMatches && req.method === 'POST') {
                 if (this._auth) {
                     if (headerAuthorized) {
                         results.errorBody = {
@@ -130,7 +130,6 @@ export class Manager {
                     reject(results);
                 }
             } else if (fullUrlMatches) {
-
                 if (!headerAuthorized) {
                     results.status = 403;
                     results.errorBody = {
