@@ -58,7 +58,13 @@ typings/
 .env
 
 # Internal
-/test
+/*.tgz
+/*.txt
 /.tools
-/ui-ng
+/.codebeatignore
+/.codeclimate.yml
+/.travis.yml
 /src
+/test
+/tsconfig.json
+/ui-ng
