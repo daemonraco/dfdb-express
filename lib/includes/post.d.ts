@@ -12,4 +12,5 @@ export declare class Post extends Method {
     protected insert(collectionName: string, document: {
         [name: string]: any;
     }): Promise<Response>;
+    protected setKnownEndpoints(): void;
 }

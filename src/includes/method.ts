@@ -4,22 +4,34 @@
  */
 
 import { Promise } from 'es6-promise';
+import * as fs from 'fs';
+import * as path from 'path';
 
+import { Manager } from "./manager";
+import { MethodEndpoint } from "./method-endpoint";
 import { Response } from "./response";
 
 export abstract class Method {
     //
     // Protected properties.
     protected _connection: any = null;
+    protected _endpoints: MethodEndpoint[] = [];
     protected _hiddenCollections: string[] = [];
+    protected _manager: Manager = null;
     //
     // Constructor
-    constructor(conn: any, hiddenCollections: string[] = []) {
+    constructor(manager: Manager, conn: any, hiddenCollections: string[] = []) {
+        this._manager = manager;
         this._connection = conn;
         this._hiddenCollections = hiddenCollections;
+
+        this.setKnownEndpoints();
     }
     //
     // Public methods.
+    public endpoints(): MethodEndpoint[] {
+        return this._endpoints;
+    }
     public abstract process(params: { [name: string]: any }): Promise<Response>;
     //
     // Protected methods.
@@ -39,6 +51,15 @@ export abstract class Method {
     }
     protected rejectWithCode500(err: string, reject: (err: Response) => void): void {
         this.rejectWithCode(500, err, reject);
+    }
+    protected abstract setKnownEndpoints(): void;
+    protected setKnownEndpointsFromFile(name: string): void {
+        try {
+            const data = require(path.join(__dirname, `../../endpoint-docs/${name}.json`));
+            data.forEach((item: any) => {
+                this._endpoints.push(new MethodEndpoint(item));
+            });
+        } catch (e) { }
     }
     protected skipResponse(): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {

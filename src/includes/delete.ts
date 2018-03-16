@@ -6,6 +6,7 @@
 import { Promise } from 'es6-promise';
 
 import { Method } from "./method";
+import { MethodEndpoint } from "./method-endpoint";
 import { Response } from "./response";
 
 export class Delete extends Method {
@@ -65,5 +66,8 @@ export class Delete extends Method {
                 this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
             }
         });
+    }
+    protected setKnownEndpoints(): void {
+        this.setKnownEndpointsFromFile('delete');
     }
 }

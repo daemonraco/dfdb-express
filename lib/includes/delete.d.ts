@@ -11,4 +11,5 @@ export declare class Delete extends Method {
     }): Promise<Response>;
     protected delete(collectionName: string, documentId: string): Promise<Response>;
     protected drop(collectionName: string): Promise<Response>;
+    protected setKnownEndpoints(): void;
 }

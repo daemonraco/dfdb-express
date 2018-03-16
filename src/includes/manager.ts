@@ -6,35 +6,15 @@
 import { Promise } from 'es6-promise';
 import { Connection, DocsOnFileDB } from 'dfdb';
 
+import { AuthToken, AuthTokenList } from './auth-token';
 import { Delete } from './delete';
 import { Get } from './get';
 import { Method } from './method';
+import { MethodEndpoint } from "./method-endpoint";
 import { Post } from './post';
 import { Put } from './put';
 import { Response, UIData } from './response';
 
-export class AuthToken {
-    protected _code: string = null;
-    protected _expirationDate: Date = null;
-
-    constructor() {
-        this._code = `${Math.random().toString(36).substring(7)}${Math.random().toString(36).substring(7)}`;
-        this.refresh();
-    }
-
-    public code(): string {
-        return this._code;
-    }
-    public expired(): boolean {
-        const now = new Date();
-        return this._expirationDate < now;
-    }
-    public refresh(): void {
-        this._expirationDate = new Date();
-        this._expirationDate.setHours(this._expirationDate.getHours() + 1);
-    }
-}
-export type AuthTokenList = { [name: string]: AuthToken };
 export type ValuesList = { [name: string]: any };
 
 const ManagerAuthTokens: AuthTokenList = {};
@@ -47,6 +27,8 @@ export class Manager {
     protected _connection: any = null;
     protected _dbname: string = null;
     protected _dbpath: string = null;
+    protected _endpointsCache: any[] = null;
+    protected _endpointsCacheFull: any[] = null;
     protected _fullUiUrlPattern: RegExp = null;
     protected _fullUrlPattern: RegExp = null;
     protected _hiddenCollections: string[] = [];
@@ -64,11 +46,11 @@ export class Manager {
             .then((conn: Connection) => {
                 this._connection = conn;
 
-                this._processors['GET'] = new Get(this._connection, this._hiddenCollections);
-                this._processors['POST'] = new Post(this._connection, this._hiddenCollections);
-                this._processors['PUT'] = new Put(this._connection, this._hiddenCollections);
+                this._processors['GET'] = new Get(this, this._connection, this._hiddenCollections);
+                this._processors['POST'] = new Post(this, this._connection, this._hiddenCollections);
+                this._processors['PUT'] = new Put(this, this._connection, this._hiddenCollections);
                 this._processors['PATCH'] = this._processors['PUT'];
-                this._processors['DELETE'] = new Delete(this._connection, this._hiddenCollections);
+                this._processors['DELETE'] = new Delete(this, this._connection, this._hiddenCollections);
             })
             .catch((err: any) => {
                 throw `${err}`;
@@ -79,6 +61,10 @@ export class Manager {
         this._authUrlPattern = RegExp(`^${this._restPath}-auth/(login|logout)`);
     }
 
+    public endpoints(full: boolean): any[] {
+        this.buildEndpoints();
+        return full ? this._endpointsCacheFull : this._endpointsCache;
+    }
     public process(req: ValuesList, res: ValuesList): Promise<Response> {
         //
         // Building promise to return.
@@ -178,8 +164,79 @@ export class Manager {
             }
         });
     }
+    public restPath(): string {
+        return this._restPath;
+    }
     //
     // Protected metods.
+    protected buildEndpoints(): void {
+        if (this._endpointsCache === null) {
+            this._endpointsCache = [];
+            this._endpointsCacheFull = [];
+
+            const endpointPath = (endpoint: MethodEndpoint) => {
+                return `${endpoint.absolute ? '' : this._restPath}${endpoint.path}`;
+            };
+            const explodedExample = (endpoint: MethodEndpoint) => {
+                if (endpoint.examples) {
+                    endpoint.examples = endpoint.examples.replace(/%path%/g, endpointPath(endpoint));
+                }
+
+                return endpoint.examples;
+            };
+            const parseList = (list: MethodEndpoint[], method: string) => {
+                list.forEach((endpoint: MethodEndpoint) => {
+                    this._endpointsCache.push({
+                        method: method.toUpperCase(),
+                        path: `${endpoint.absolute ? '' : this._restPath}${endpoint.path}`,
+                        brief: endpoint.brief
+                    });
+                    this._endpointsCacheFull.push({
+                        method: method.toUpperCase(),
+                        path: `${endpoint.absolute ? '' : this._restPath}${endpoint.path}`,
+                        brief: endpoint.brief,
+                        examples: explodedExample(endpoint)
+                    });
+                });
+            };
+
+            Object.keys(this._processors).forEach((method: string) => {
+                parseList(this._processors[method].endpoints(), method);
+            });
+            parseList(this.getEndpoints(), 'GET');
+            parseList(this.postEndpoints(), 'POST');
+
+            const sortIt = (a: any, b: any) => {
+                let result = 0;
+
+                if (a.path === b.path) {
+                    if (a.method < b.method) result = -1;
+                    if (a.method > b.method) result = 1;
+                } else {
+                    if (a.path < b.path) result = -1;
+                    if (a.path > b.path) result = 1;
+                }
+
+                return result;
+            }
+            this._endpointsCache = this._endpointsCache.sort(sortIt);
+        }
+    }
+    protected getEndpoints(): MethodEndpoint[] {
+        let out: MethodEndpoint[] = [];
+        let aux: MethodEndpoint = null;
+
+        if (this._uiPath) {
+            aux = new MethodEndpoint({
+                path: `${this._uiPath}`,
+                brief: `This is a web UI that allows you to access your database using a web browser.`,
+                absolute: true
+            });
+            out.push(aux);
+        }
+
+        return out;
+    }
     /**
      * This method parse given parameters on instantiation.
      *
@@ -253,5 +310,27 @@ export class Manager {
                 }
             }
         }
+    }
+    protected postEndpoints(): MethodEndpoint[] {
+        let out: MethodEndpoint[] = [];
+        let aux: MethodEndpoint = null;
+
+        if (this._auth) {
+            aux = new MethodEndpoint({
+                path: `${this._restPath}-auth/login`,
+                brief: `This endpoint takes and validate login credentials.`,
+                absolute: true
+            });
+            out.push(aux);
+
+            aux = new MethodEndpoint({
+                path: `${this._restPath}-auth/logout`,
+                brief: `This endpoint sets current session as not logged it.`,
+                absolute: true
+            });
+            out.push(aux);
+        }
+
+        return out;
     }
 };

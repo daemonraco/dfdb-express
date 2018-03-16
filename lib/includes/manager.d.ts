@@ -4,18 +4,8 @@
  */
 import { Promise } from 'es6-promise';
 import { Method } from './method';
+import { MethodEndpoint } from "./method-endpoint";
 import { Response } from './response';
-export declare class AuthToken {
-    protected _code: string;
-    protected _expirationDate: Date;
-    constructor();
-    code(): string;
-    expired(): boolean;
-    refresh(): void;
-}
-export declare type AuthTokenList = {
-    [name: string]: AuthToken;
-};
 export declare type ValuesList = {
     [name: string]: any;
 };
@@ -27,6 +17,8 @@ export declare class Manager {
     protected _connection: any;
     protected _dbname: string;
     protected _dbpath: string;
+    protected _endpointsCache: any[];
+    protected _endpointsCacheFull: any[];
     protected _fullUiUrlPattern: RegExp;
     protected _fullUrlPattern: RegExp;
     protected _hiddenCollections: string[];
@@ -38,7 +30,11 @@ export declare class Manager {
     protected _subUrlPattern: RegExp;
     protected _uiPath: string;
     constructor(options: ValuesList);
+    endpoints(full: boolean): any[];
     process(req: ValuesList, res: ValuesList): Promise<Response>;
+    restPath(): string;
+    protected buildEndpoints(): void;
+    protected getEndpoints(): MethodEndpoint[];
     /**
      * This method parse given parameters on instantiation.
      *
@@ -46,4 +42,5 @@ export declare class Manager {
      * @method parseOptions
      */
     protected parseOptions(): void;
+    protected postEndpoints(): MethodEndpoint[];
 }

@@ -1,0 +1,29 @@
+<h3>Endpoints</h3>
+<p>This is a list of known endpoints on this database.</p>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Endpoint</th>
+            <th scope="col">Method</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let endpoint of endpoints">
+            <td>
+                <code>{{endpoint.path}}</code>
+            </td>
+            <td class="text-center">
+                <div [class]="'badge badge-method-' + endpoint.method.toLowerCase()">{{endpoint.method}}</div>
+            </td>
+            <td>
+                <button type="button" *ngIf="endpoint.examples" class="btn btn-link float-right" title="Show examples" (click)="showExample(endpoint, $event)">
+                    <fa [name]="'info-circle'"></fa>
+                </button>
+
+                {{endpoint.brief}}
+            </td>
+        </tr>
+    </tbody>
+</table>

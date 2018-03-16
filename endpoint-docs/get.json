@@ -1,0 +1,22 @@
+[
+    {
+        "path": "/$info",
+        "brief": "Provides information about current database connection and it's assets.",
+        "examplesFile": "get.info"
+    },
+    {
+        "path": "/:collection",
+        "brief": "Retrieves all the information inside certain collection.",
+        "examplesFile": "get.collection"
+    },
+    {
+        "path": "/:collection/$create",
+        "brief": "Triggers the creation of certain collection."
+    },
+    {
+        "path": "/:collection/$schema"
+    },
+    {
+        "path": "/:collection/:id"
+    }
+]

@@ -1,0 +1,21 @@
+<div id="message-modal" class="modal text-secondary fade" tabindex="-1" role="dialog" #modal>
+    <div class="modal-dialog" role="document" [class.modal-lg]="data.large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" *ngIf="!data.title">Message</h5>
+                <h5 class="modal-title" *ngIf="data.title">{{data.title}}</h5>
+                <button type="button" class="close text-info" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p *ngFor="let msg of data.message" [innerHTML]="msg"></p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-info" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

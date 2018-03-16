@@ -6,6 +6,7 @@
 import { Promise } from 'es6-promise';
 
 import { Method } from "./method";
+import { MethodEndpoint } from "./method-endpoint";
 import { Response } from "./response";
 
 export class Get extends Method {
@@ -24,7 +25,7 @@ export class Get extends Method {
         if (params.collection) {
             switch (params.collection) {
                 case '$info':
-                    results = this.connectionInfo();
+                    results = this.connectionInfo(params);
                     break;
                 default:
                     if (params.id) {
@@ -111,11 +112,13 @@ export class Get extends Method {
             }
         });
     }
-    protected connectionInfo(): Promise<Response> {
+    protected connectionInfo(params: { [name: string]: any }): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
+            let fullDocs: boolean = typeof params.queryParams.fullDocs !== 'undefined';
 
             result.body = {
+                endpoints: this._manager.endpoints(fullDocs),
                 collections: this._connection.collections(),
                 initializer: this._connection.hasInitializer() ? this._connection.initializer().toJSON() : null
             };
@@ -187,5 +190,8 @@ export class Get extends Method {
                 this.rejectWithCode404(`Collection not found`, reject);
             }
         });
+    }
+    protected setKnownEndpoints(): void {
+        this.setKnownEndpointsFromFile('get');
     }
 }

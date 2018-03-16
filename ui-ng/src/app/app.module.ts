@@ -23,13 +23,16 @@ import { FooterComponent } from './footer/footer.component';
 import { LastUrlComponent } from './last-url/last-url.component';
 import { ModalConfirmComponent } from './modals/confirm/confirm.component';
 import { ModalErrorComponent } from './modals/error/error.component';
+import { ModalMessageComponent } from './modals/message/message.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { PageEndpointsComponent } from './pages/endpoints/endpoints.component';
 import { PageLoginComponent } from './pages/login/login.component';
 import { PageMainComponent } from './pages/main/main.component';
 
 import { LastUrlService } from './services/last-url.service';
-import { ModalErrorService } from './services/modal-error.service';
 import { ModalConfirmService } from './services/modal-confirm.service';
+import { ModalErrorService } from './services/modal-error.service';
+import { ModalMessageService } from './services/modal-message.service';
 
 @NgModule({
     declarations: [
@@ -47,9 +50,11 @@ import { ModalConfirmService } from './services/modal-confirm.service';
         LastUrlComponent,
         ModalConfirmComponent,
         ModalErrorComponent,
+        ModalMessageComponent,
         NavbarComponent,
         PageLoginComponent,
         PageMainComponent,
+        PageEndpointsComponent,
     ],
     imports: [
         BrowserModule,
@@ -63,7 +68,8 @@ import { ModalConfirmService } from './services/modal-confirm.service';
         AuthService,
         LastUrlService,
         ModalConfirmService,
-        ModalErrorService
+        ModalErrorService,
+        ModalMessageService
     ],
     bootstrap: [AppComponent]
 })

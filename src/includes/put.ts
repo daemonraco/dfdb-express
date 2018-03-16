@@ -6,6 +6,7 @@
 import { Promise } from 'es6-promise';
 
 import { Method } from "./method";
+import { MethodEndpoint } from "./method-endpoint";
 import { Response } from "./response";
 
 export class Put extends Method {
@@ -78,5 +79,8 @@ export class Put extends Method {
                 this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
             }
         });
+    }
+    protected setKnownEndpoints(): void {
+        this.setKnownEndpointsFromFile('put');
     }
 }

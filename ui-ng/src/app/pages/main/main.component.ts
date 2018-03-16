@@ -19,21 +19,25 @@ export class PageMainComponent implements OnInit {
     constructor(
         private conn: ConnectionService,
         private authSrv: AuthService,
-        private emSrv: ModalErrorService,
+        private meSrv: ModalErrorService,
         private router: Router) {
     }
 
     public createCollection(event): void {
-        this.conn.createCollection(this.name)
-            .subscribe(data => {
-                this.name = '';
-                this.loadCollections();
-            }, error => {
-                this.emSrv.show([
-                    `Given filters JSON seems to be invalid.`,
-                    `Error: <code>${JSON.stringify(JSON.parse(error._body), null, 2)}</code>`
-                ], `${error.status}: ${error.statusText}`);
-            });
+        if (this.name) {
+            this.conn.createCollection(this.name)
+                .subscribe(data => {
+                    this.name = '';
+                    this.loadCollections();
+                }, error => {
+                    this.meSrv.show([
+                        `Given filters JSON seems to be invalid.`,
+                        `Error: <code>${JSON.stringify(JSON.parse(error._body), null, 2)}</code>`
+                    ], `${error.status}: ${error.statusText}`);
+                });
+        } else {
+            this.meSrv.show(`No valid name was given`);
+        }
     }
     public loadCollections(): void {
         this.conn.info()
@@ -45,7 +49,7 @@ export class PageMainComponent implements OnInit {
                         this.collections.push(data.collections[key]);
                     });
             }, error => {
-                this.emSrv.show([
+                this.meSrv.show([
                     `Error: <code>${JSON.stringify(JSON.parse(error._body), null, 2)}</code>`
                 ], `${error.status}: ${error.statusText}`);
 

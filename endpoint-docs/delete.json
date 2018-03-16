@@ -1,0 +1,8 @@
+[
+    {
+        "path": "/:collection/$drop"
+    },
+    {
+        "path": "/:collection/:id"
+    }
+]

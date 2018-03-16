@@ -6,6 +6,7 @@
 import { Promise } from 'es6-promise';
 
 import { Method } from "./method";
+import { MethodEndpoint } from "./method-endpoint";
 import { Response } from "./response";
 
 export class Post extends Method {
@@ -14,12 +15,8 @@ export class Post extends Method {
     public process(params: { [name: string]: any }): Promise<Response> {
         let results: Promise<Response> = null;
 
-        if (params.collection) {
-            if (!params.id) {
-                results = this.insert(params.collection, params.body);
-            } else {
-                results = this.skipResponse();
-            }
+        if (params.collection && !params.id) {
+            results = this.insert(params.collection, params.body);
         } else {
             results = this.skipResponse();
         }
@@ -45,5 +42,8 @@ export class Post extends Method {
                 this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
             }
         });
+    }
+    protected setKnownEndpoints(): void {
+        this.setKnownEndpointsFromFile('post');
     }
 }

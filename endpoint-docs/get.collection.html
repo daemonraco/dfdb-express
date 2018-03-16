@@ -1,0 +1,61 @@
+<h5>Basic search</h5>
+<p>This is the simplest way to call</p>
+<code>Path: %path%</code>
+<pre class="border border-secondary rounded p-2">{
+    "searchMechanism": "search",
+    "conditions": {},
+    "docs": [{
+        "name": "Pupper",
+        "age": 1,
+        "_id": "1",
+        "_created": "2018-03-16T17:26:56.169Z",
+        "_updated": "2018-03-16T17:26:56.169Z"
+    }]
+}</pre>
+
+<hr/>
+
+<h5>Search conditions</h5>
+<p>Adding as simple condition to get pets, at least 1 year old</p>
+<code>Path: %path%?query={"age":{"$ge":1}}</code>
+<pre class="border border-secondary rounded p-2">{
+    "searchMechanism": "search",
+    "conditions": {
+        "age": {
+            "$ge": 1
+        }
+    },
+    "docs": [{
+        "name": "Pupper",
+        "age": 1,
+        "_id": "1",
+        "_created": "2018-03-16T17:26:56.169Z",
+        "_updated": "2018-03-16T17:26:56.169Z"
+    }]
+}</pre>
+
+<hr/>
+
+<h5>Simpler view of a search</h5>
+<p>Retrieving a cleaner search response.</p>
+<code>Path: %path%?query={"age":{"$ge":1}}&simple</code>
+<pre class="border border-secondary rounded p-2">[{
+    "name": "Pupper",
+    "age": 1,
+    "_id": "1",
+    "_created": "2018-03-16T17:26:56.169Z",
+    "_updated": "2018-03-16T17:26:56.169Z"
+}]</pre>
+
+<hr/>
+
+<h5>Searching indexed fields</h5>
+<p>Forcing to use only only fields that are indexed.</p>
+<code>Path: %path%?filter={"age":{"$ge":1}}&simple</code>
+<pre class="border border-secondary rounded p-2">[{
+    "name": "Pupper",
+    "age": 1,
+    "_id": "1",
+    "_created": "2018-03-16T17:26:56.169Z",
+    "_updated": "2018-03-16T17:26:56.169Z"
+}]</pre>

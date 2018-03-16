@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -26,8 +26,13 @@ export class ConnectionService {
         this.luSrv.setUrl(url, 'delete');
         return this.http.delete(url, this.headers()).map(data => data.json());
     }
-    public info(): Observable<any> {
-        const url: string = `${DFDBConfig.restUri}/\$info`;
+    public info(options: { [name: string]: any } = {}): Observable<any> {
+        let params = new URLSearchParams();
+        for (let key in options) {
+            params.set(key, options[key])
+        }
+
+        const url: string = `${DFDBConfig.restUri}/\$info?${params.toString()}`;
         this.luSrv.setUrl(url, 'get');
         return this.http.get(url, this.headers()).map(data => data.json());
     }

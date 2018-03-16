@@ -1,0 +1,8 @@
+[
+    {
+        "path": "/:collection/$schema"
+    },
+    {
+        "path": "/:collection/:id"
+    }
+]

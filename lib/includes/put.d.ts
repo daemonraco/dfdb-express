@@ -15,4 +15,5 @@ export declare class Put extends Method {
     protected update(collectionName: string, documentId: string, document: {
         [name: string]: any;
     }, partial: boolean): Promise<Response>;
+    protected setKnownEndpoints(): void;
 }
