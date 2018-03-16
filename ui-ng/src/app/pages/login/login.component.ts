@@ -7,12 +7,12 @@ import { ModalErrorService } from '../../services/modal-error.service';
 declare var DFDBConfig: any;
 
 @Component({
-    selector: 'ui-login',
+    selector: 'ui-page-login',
     templateUrl: './login.component.html',
     styles: [],
     providers: [AuthService]
 })
-export class LoginComponent implements OnInit {
+export class PageLoginComponent implements OnInit {
     public authType: string = DFDBConfig.authType;
     public password: string = '';
     public token: string = '';

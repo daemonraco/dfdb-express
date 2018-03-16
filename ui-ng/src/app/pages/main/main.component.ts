@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../services/auth.service';
-import { ConnectionService } from '../services/connection.service';
-import { ModalErrorService } from '../services/modal-error.service';
+import { AuthService } from '../../services/auth.service';
+import { ConnectionService } from '../../services/connection.service';
+import { ModalErrorService } from '../../services/modal-error.service';
 
 @Component({
-    selector: 'ui-main-page',
-    templateUrl: './main-page.component.html',
+    selector: 'ui-page-main',
+    templateUrl: './main.component.html',
     styles: [],
     providers: [ConnectionService]
 })
-export class MainPageComponent implements OnInit {
+export class PageMainComponent implements OnInit {
     public name: string = '';
 
     public collections: any[] = [];
@@ -26,6 +26,7 @@ export class MainPageComponent implements OnInit {
     public createCollection(event): void {
         this.conn.createCollection(this.name)
             .subscribe(data => {
+                this.name = '';
                 this.loadCollections();
             }, error => {
                 this.emSrv.show([

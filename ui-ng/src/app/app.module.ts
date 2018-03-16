@@ -21,20 +21,21 @@ import { CollectionResultsComponent } from './collection/results/results.compone
 import { CollectionSchemaComponent } from './collection/schema/schema.component';
 import { FooterComponent } from './footer/footer.component';
 import { LastUrlComponent } from './last-url/last-url.component';
-import { MainPageComponent } from './main-page/main-page.component';
 import { ModalConfirmComponent } from './modals/confirm/confirm.component';
 import { ModalErrorComponent } from './modals/error/error.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { PageLoginComponent } from './pages/login/login.component';
+import { PageMainComponent } from './pages/main/main.component';
 
 import { LastUrlService } from './services/last-url.service';
 import { ModalErrorService } from './services/modal-error.service';
 import { ModalConfirmService } from './services/modal-confirm.service';
-import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         CollectionComponent,
+        CollectionActionsComponent,
         CollectionDeleteComponent,
         CollectionGetComponent,
         CollectionGetIdComponent,
@@ -44,12 +45,11 @@ import { LoginComponent } from './pages/login/login.component';
         CollectionSchemaComponent,
         FooterComponent,
         LastUrlComponent,
-        MainPageComponent,
         ModalConfirmComponent,
         ModalErrorComponent,
         NavbarComponent,
-        CollectionActionsComponent,
-        LoginComponent
+        PageLoginComponent,
+        PageMainComponent,
     ],
     imports: [
         BrowserModule,

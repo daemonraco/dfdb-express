@@ -1,5 +1,5 @@
 <!-- Navbar @{ -->
-<nav class="navbar navbar-dark bg-dark navbar-expand-sm mb-2">
+<nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-sm mb-2">
     <div class="container">
         <a href="#" class="navbar-brand">DocsOnFileDB</a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -9,7 +9,10 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav  ml-auto">
                 <li class="nav-item">
-                    <span class="nav-link">{{restUri}}</span>
+                    <span class="nav-link">
+                        <fa [name]="'database'" class="text-primary"></fa>
+                        {{restUri}}
+                    </span>
                 </li>
             </ul>
         </div>

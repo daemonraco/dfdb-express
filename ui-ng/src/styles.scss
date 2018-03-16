@@ -1,11 +1,15 @@
-@import 'styles/sticky-footer';
-//
 @import "node_modules/bootstrap/scss/bootstrap";
 //
 body {
-    .navbar {
-        border-bottom: theme-color("primary") 3px solid;
-        opacity: 0.8;
+    ui-navbar {
+        .navbar {
+            border-bottom: theme-color("primary") 3px solid;
+        }
+    }
+    ui-footer {
+        .navbar {
+            border-top: theme-color("primary") 3px solid;
+        }
     }
     .mpReshape {
         @extend .m-0;
@@ -18,7 +22,7 @@ body {
             @extend .mpReshape;
         }
         .collection-action {
-            @extend .border; // @extend .border-success;
+            @extend .border;
             @extend .border-secondary;
             @extend .d-flex;
             @extend .flex-column;
