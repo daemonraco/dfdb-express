@@ -16,8 +16,18 @@ export class CollectionService {
         private http: Http) {
     }
 
+    public createFieldIndex(collectionName: string, field: string): Observable<any> {
+        const url: string = `${DFDBConfig.restUri}/${collectionName}/$createIndex?field=${field}`;
+        this.luSrv.setUrl(url, 'post');
+        return this.http.post(url, {}, this.headers()).map(data => data.json());
+    }
     public delete(collectionName: string, id: string): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/${collectionName}/${id}`;
+        this.luSrv.setUrl(url, 'delete');
+        return this.http.delete(url, this.headers()).map(data => data.json());
+    }
+    public dropFieldIndex(collectionName: string, field: string): Observable<any> {
+        const url: string = `${DFDBConfig.restUri}/${collectionName}/$dropIndex?field=${field}`;
         this.luSrv.setUrl(url, 'delete');
         return this.http.delete(url, this.headers()).map(data => data.json());
     }
@@ -28,6 +38,11 @@ export class CollectionService {
     }
     public getByIt(collectionName: string, id: string): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/${collectionName}/${id}`;
+        this.luSrv.setUrl(url, 'get');
+        return this.http.get(url, this.headers()).map(data => data.json());
+    }
+    public indexes(collectionName: string): Observable<any> {
+        const url: string = `${DFDBConfig.restUri}/${collectionName}/$indexes`;
         this.luSrv.setUrl(url, 'get');
         return this.http.get(url, this.headers()).map(data => data.json());
     }

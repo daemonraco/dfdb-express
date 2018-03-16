@@ -30,7 +30,7 @@ export class ConnectionService {
     public info(options: { [name: string]: any } = {}): Observable<any> {
         let params = new URLSearchParams();
         for (let key in options) {
-            params.set(key, options[key])
+            params.set(key, options[key]);
         }
 
         const url: string = `${DFDBConfig.restUri}/\$info?${params.toString()}`;

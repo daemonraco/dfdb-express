@@ -31,7 +31,6 @@ export class PageMainComponent implements OnInit {
                     this.loadCollections();
                 }, error => {
                     this.meSrv.show([
-                        `Given filters JSON seems to be invalid.`,
                         `Error: <code>${JSON.stringify(JSON.parse(error._body), null, 2)}</code>`
                     ], `${error.status}: ${error.statusText}`);
                 });

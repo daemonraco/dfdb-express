@@ -4,6 +4,10 @@
         "brief": "Remove all documents from a collection. It doesn't reset indexes."
     },
     {
+        "path": "/:collection/$createIndex?field=:name",
+        "brief": "Creates a field index for a collection and indexes it."
+    },
+    {
         "path": "/:collection"
     }
 ]

@@ -9,6 +9,9 @@ export declare class Post extends Method {
     process(params: {
         [name: string]: any;
     }): Promise<Response>;
+    protected createFieldIndex(collectionName: string, params: {
+        [name: string]: any;
+    }): Promise<Response>;
     protected insert(collectionName: string, document: {
         [name: string]: any;
     }): Promise<Response>;

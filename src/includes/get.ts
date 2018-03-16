@@ -33,6 +33,9 @@ export class Get extends Method {
                             case '$schema':
                                 results = this.schema(params.collection);
                                 break;
+                            case '$indexes':
+                                results = this.indexes(params.collection);
+                                break;
                             case '$create':
                                 results = this.createCollection(params.collection);
                                 break;
@@ -147,6 +150,23 @@ export class Get extends Method {
                     }).catch((err: string) => this.rejectWithCode500(err, reject));
             } else {
                 this.rejectWithCode404(`Document with id '${documentId}' not found`, reject);
+            }
+        });
+    }
+    protected indexes(collectionName: string): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            const collections = this._connection.collections();
+
+            if (typeof collections[collectionName] !== 'undefined' && this._hiddenCollections.indexOf(collectionName) < 0) {
+                this._connection.collection(collectionName)
+                    .then((col: any) => {
+                        result.body = col.indexes();
+                        resolve(result);
+                    }).catch((err: string) => this.rejectWithCode500(err, reject));
+            } else {
+                this.rejectWithCode404(`Collection not found`, reject);
             }
         });
     }

@@ -17,6 +17,9 @@
         "path": "/:collection/$schema"
     },
     {
+        "path": "/:collection/$indexes"
+    },
+    {
         "path": "/:collection/:id"
     }
 ]

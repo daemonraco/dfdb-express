@@ -15,6 +15,7 @@ import { CollectionActionsComponent } from './collection/actions/actions.compone
 import { CollectionDeleteComponent } from './collection/delete/delete.component';
 import { CollectionGetComponent } from './collection/get/get.component';
 import { CollectionGetIdComponent } from './collection/get-id/get-id.component';
+import { CollectionIndexesComponent } from './collection/indexes/indexes.component';
 import { CollectionPostComponent } from './collection/post/post.component';
 import { CollectionPutComponent } from './collection/put/put.component';
 import { CollectionResultsComponent } from './collection/results/results.component';
@@ -42,6 +43,7 @@ import { ModalMessageService } from './services/modal-message.service';
         CollectionDeleteComponent,
         CollectionGetComponent,
         CollectionGetIdComponent,
+        CollectionIndexesComponent,
         CollectionPostComponent,
         CollectionPutComponent,
         CollectionResultsComponent,

@@ -9,6 +9,9 @@ export declare class Delete extends Method {
     process(params: {
         [name: string]: any;
     }): Promise<Response>;
+    protected dropFieldIndex(collectionName: string, params: {
+        [name: string]: any;
+    }): Promise<Response>;
     protected delete(collectionName: string, documentId: string): Promise<Response>;
     protected drop(collectionName: string): Promise<Response>;
     protected setKnownEndpoints(): void;

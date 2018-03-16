@@ -17,6 +17,7 @@ export declare class Get extends Method {
         [name: string]: any;
     }): Promise<Response>;
     protected document(collectionName: string, documentId: string): Promise<Response>;
+    protected indexes(collectionName: string): Promise<Response>;
     protected listCollections(simple?: boolean): Promise<Response>;
     protected schema(collectionName: string): Promise<Response>;
     protected setKnownEndpoints(): void;
