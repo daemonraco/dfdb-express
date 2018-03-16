@@ -4,8 +4,8 @@
             <fa [name]="'user'"></fa> Login
         </div>
 
-        <div class="card-body" *ngIf="!token">
-            <form *ngIf="authType == 'basic'" (submit)="login($event)">
+        <div class="card-body" *ngIf="!token && authType == 'basic'">
+            <form (submit)="login($event)">
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input [(ngModel)]="password" type="password" class="form-control form-control-sm" name="password" placeholder="Basic password...">
@@ -16,7 +16,9 @@
                     <fa [name]="'key'"></fa> Sign in
                 </button>
             </form>
-            <form *ngIf="authType == 'custom'" (submit)="login($event)">
+        </div>
+        <div class="card-body" *ngIf="!token && authType == 'custom'">
+            <form (submit)="login($event)">
                 <div class="form-group">
                     <label for="token">Token</label>
                     <textarea [(ngModel)]="token" type="token" class="form-control form-control-sm" name="token" placeholder="Token..."></textarea>
@@ -28,8 +30,15 @@
                 </button>
             </form>
         </div>
+        <div class="card-body" *ngIf="!token && authType == 'none'">
+            <p>You don't need to sign in.</p>
+
+            <button type="button" class="btn btn-outline-secondary float-right" (click)="goHome($event)">
+                <fa [name]="'home'"></fa> Home
+            </button>
+        </div>
         <div class="card-body" *ngIf="token">
-            <p>You are already logged in</p>
+            <p>You are already logged in.</p>
 
             <button type="button" class="btn btn-outline-secondary float-right" (click)="goHome($event)">
                 <fa [name]="'home'"></fa> Home

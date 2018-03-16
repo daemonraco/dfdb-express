@@ -4,21 +4,13 @@
     <ui-collection [collection]="collection.name" (reloadCollections)="loadCollections();"></ui-collection>
 </div>
 
-<div class="card mt-4">
-    <div class="card-header">
-        Create Collection
-    </div>
-    <div class="card-body">
-        <form name="create-collection" (submit)="createCollection($event)">
-            <div class="form-group">
-                <label for="name">Collection Name</label>
-                <input type="text" name="name" [(ngModel)]="name" class="form-control form-control-sm" />
-                <!-- <small class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-            </div>
-
+<form name="create-collection" (submit)="createCollection($event)" class="mt-5">
+    <div class="input-group input-group-sm mb-3">
+        <input type="text" name="name" [(ngModel)]="name" class="form-control form-control-sm" placeholder="Collection name..." aria-describedby="basic-addon2">
+        <div class="input-group-append">
             <button type="submit" class="btn btn-sm btn-primary">
-                <fa [name]="'plus'"></fa> Create
+                <fa [name]="'plus'"></fa> Create Collection
             </button>
-        </form>
+        </div>
     </div>
-</div>
+</form>

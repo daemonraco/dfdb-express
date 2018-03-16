@@ -220,7 +220,7 @@ export class Manager {
                 return req.body.password == password;
             };
         } else {
-            this._authType = 'noen';
+            this._authType = 'none';
             this._auth = null;
         }
 
