@@ -1,7 +1,7 @@
 <div class="collection-action method-put">
     <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_PUT'">
         <strong>PUT:</strong>
-        <code class="font-italic">/rest/ui/:id</code>
+        <code class="font-italic">{{restUri}}/:id</code>
     </div>
     <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_PUT'">
         <form name="form_collection_PUT" (submit)="submitQuery($event)">

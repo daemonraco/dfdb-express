@@ -1,7 +1,7 @@
 <div class="collection-action method-post">
     <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_POST'">
         <strong>POST:</strong>
-        <code class="font-italic">/rest/ui</code>
+        <code class="font-italic">{{restUri}}</code>
     </div>
     <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_POST'">
         <form name="form_collection_POST" (submit)="submitQuery($event)">

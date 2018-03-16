@@ -50,7 +50,7 @@ export = {
                             if (typeof htmlCache[key] === 'undefined') {
                                 let html: string = fs.readFileSync(path.join(__dirname, '../ui/index.html')).toString();
 
-                                html = html.replace(`<title>DocsOnFileDB</title>`, `<title>DocsOnFileDB: ${response.ui.uri}</title>`);
+                                html = html.replace(`<title>DocsOnFileDB</title>`, `<title>DocsOnFileDB: ${response.ui.restUri}</title>`);
                                 html = html.replace(`<base href="/">`, `<base href="${response.ui.uri}/">`);
                                 html = html.replace(`href="/assets/icon-24px.png"`, `href="${response.ui.uri}/assets/icon-24px.png"`);
 

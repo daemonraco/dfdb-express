@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CollectionService } from '../../services/collection.service';
 import { ModalErrorService } from '../../services/modal-error.service';
 
+declare var DFDBConfig;
+
 @Component({
     selector: 'ui-collection-get-id',
     templateUrl: './get-id.component.html',
@@ -14,6 +16,7 @@ export class CollectionGetIdComponent implements OnInit {
 
     public documentId: string = '';
     public error: any = null;
+    public restUri: string = DFDBConfig.restUri;
     public results: string = '';
 
     constructor(

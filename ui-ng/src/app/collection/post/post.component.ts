@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CollectionService } from '../../services/collection.service';
 import { ModalErrorService } from '../../services/modal-error.service';
 
+declare var DFDBConfig;
+
 @Component({
     selector: 'ui-collection-post',
     templateUrl: './post.component.html',
@@ -14,6 +16,7 @@ export class CollectionPostComponent implements OnInit {
 
     public data: string = '';
     public error: any = '';
+    public restUri: string = DFDBConfig.restUri;
     public results: string = '';
 
     constructor(
