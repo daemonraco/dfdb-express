@@ -13,9 +13,14 @@
     <h5>Actions</h5>
     <p>This is a list of collection related operations.</p>
 
-    <div class="btn-group" role="group">
-        <button type="button" class="btn btn-sm btn-danger" (click)="dropCollection($event)">
-            <fa [name]="'ban'"></fa> Drop Collection
-        </button>
+    <div class="row">
+        <div class="mx-auto">
+            <button type="button" class="btn btn-sm btn-danger" (click)="dropCollection($event)">
+                <fa [name]="'ban'"></fa> Drop Collection
+            </button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="truncateCollection($event)">
+                <fa [name]="'trash'"></fa> Truncate Collection
+            </button>
+        </div>
     </div>
 </div>

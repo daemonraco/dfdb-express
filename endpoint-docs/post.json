@@ -1,5 +1,9 @@
 [
     {
+        "path": "/:collection/$truncate",
+        "brief": "Remove all documents from a collection. It doesn't reset indexes."
+    },
+    {
         "path": "/:collection"
     }
 ]

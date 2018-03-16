@@ -35,7 +35,25 @@ export class CollectionActionsComponent implements OnInit {
         this.mcSrv.confirm([
             `You are about to drop collection '${this.collectionName}'. This action can not be undone.`,
             `Are you sure?`
-        ], callback, 'Drop Colletion');
+        ], callback, 'Drop collection');
+    }
+    public truncateCollection($event): void {
+        const callback = (confirmed: boolean) => {
+            if (confirmed) {
+                this.connSrv.truncateCollection(this.collectionName)
+                    .subscribe(data => {
+                        this.reloadCollections.emit(null);
+                    }, error => {
+                        this.meSrv.show([
+                            `<pre>${JSON.stringify(JSON.parse(error._body), null, 2)}</pre>`
+                        ], `${error.status}: ${error.statusText}`);
+                    });
+            }
+        };
+        this.mcSrv.confirm([
+            `You are about to truncate collection '${this.collectionName}'. This action can not be undone.`,
+            `Are you sure?`
+        ], callback, 'Truncate collection');
     }
 
     ngOnInit() {

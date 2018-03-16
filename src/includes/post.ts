@@ -15,7 +15,9 @@ export class Post extends Method {
     public process(params: { [name: string]: any }): Promise<Response> {
         let results: Promise<Response> = null;
 
-        if (params.collection && !params.id) {
+        if (params.collection && params.id === '$truncate') {
+            results = this.truncate(params.collection);
+        } else if (params.collection && !params.id) {
             results = this.insert(params.collection, params.body);
         } else {
             results = this.skipResponse();
@@ -45,5 +47,23 @@ export class Post extends Method {
     }
     protected setKnownEndpoints(): void {
         this.setKnownEndpointsFromFile('post');
+    }
+    protected truncate(collectionName: string): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            if (this._hiddenCollections.indexOf(collectionName) < 0) {
+                this._connection.collection(collectionName)
+                    .then((col: any) => {
+                        col.truncate()
+                            .then(() => {
+                                result.body = {};
+                                resolve(result);
+                            }).catch((err: string) => this.rejectWithCode500(err, reject));
+                    }).catch((err: string) => this.rejectWithCode500(err, reject));
+            } else {
+                this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
+            }
+        });
     }
 }

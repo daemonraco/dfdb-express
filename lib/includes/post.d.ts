@@ -13,4 +13,5 @@ export declare class Post extends Method {
         [name: string]: any;
     }): Promise<Response>;
     protected setKnownEndpoints(): void;
+    protected truncate(collectionName: string): Promise<Response>;
 }

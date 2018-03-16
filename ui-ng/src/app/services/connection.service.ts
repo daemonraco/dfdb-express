@@ -15,7 +15,8 @@ export class ConnectionService {
         private luSrv: LastUrlService,
         private http: Http) {
     }
-
+    //
+    // Public methods.
     public createCollection(name: string): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/${name}/\$create`;
         this.luSrv.setUrl(url, 'get');
@@ -36,7 +37,13 @@ export class ConnectionService {
         this.luSrv.setUrl(url, 'get');
         return this.http.get(url, this.headers()).map(data => data.json());
     }
-
+    public truncateCollection(name: string): Observable<any> {
+        const url: string = `${DFDBConfig.restUri}/${name}/\$truncate`;
+        this.luSrv.setUrl(url, 'post');
+        return this.http.post(url, this.headers()).map(data => data.json());
+    }
+    //
+    // Protected methods.
     protected headers(): RequestOptions {
         const headers = {
             'Accept': 'application/json',
