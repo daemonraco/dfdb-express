@@ -11,9 +11,9 @@ import { ModalConfirmComponent } from './confirm/confirm.component';
 import { ModalErrorComponent } from './error/error.component';
 import { ModalMessageComponent } from './message/message.component';
 
-export { ModalConfirmData, ModalConfirmService } from './modal-confirm.service';
-export { ModalErrorData, ModalErrorService } from './modal-error.service';
-export { ModalMessageData, ModalMessageService } from './modal-message.service';
+export * from './modal-confirm.service';
+export * from './modal-error.service';
+export * from './modal-message.service';
 
 @NgModule({
     declarations: [

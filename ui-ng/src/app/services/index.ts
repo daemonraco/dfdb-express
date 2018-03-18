@@ -6,9 +6,9 @@ import { AuthService } from './auth.service';
 import { ConnectionService } from './connection.service';
 import { LastUrlService } from './last-url.service';
 
-export { AuthService } from './auth.service';
-export { ConnectionService } from './connection.service';
-export { LastUrlData, LastUrlService } from './last-url.service';
+export * from './auth.service';
+export * from './connection.service';
+export * from './last-url.service';
 
 @NgModule({
     declarations: [],

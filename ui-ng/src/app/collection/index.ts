@@ -4,9 +4,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 
-// import { CollectionService } from './collection.service';
-
-export { CollectionService } from './collection.service';
+export * from './collection.service';
 
 import { CollectionComponent } from './collection.component';
 import { CollectionActionsComponent } from './actions/actions.component';
@@ -30,8 +28,7 @@ import { CollectionSchemaComponent } from './schema/schema.component';
         CollectionPostComponent,
         CollectionPutComponent,
         CollectionResultsComponent,
-        CollectionSchemaComponent,
-        // CollectionService
+        CollectionSchemaComponent
     ],
     exports: [
         CollectionComponent,
@@ -43,8 +40,7 @@ import { CollectionSchemaComponent } from './schema/schema.component';
         CollectionPostComponent,
         CollectionPutComponent,
         CollectionResultsComponent,
-        CollectionSchemaComponent,
-        // CollectionService
+        CollectionSchemaComponent
     ],
     imports: [
         BrowserModule,

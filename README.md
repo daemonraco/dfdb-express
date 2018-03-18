@@ -85,28 +85,23 @@ http.createServer(app).listen(port, () => {
 ```
 
 # Endpoints
-Based on te example, and assuming that you want to use a collection called
-`users`, you'll be able to use these endpoints:
-* `[GET] /rest/mydb` List of all known and exposed collections.
-* `[GET] /rest/mydb?simple` Idem, but it's just a list of names.
-* `[GET] /rest/mydb/users` List of documents stored inside the collection `users`.
-* `[GET] /rest/mydb/users?simple` Idem, but it's just a list of documents.
-* `[POST] /rest/mydb/users` Adds a new document into collection `users`.
-* `[GET] /rest/mydb/users/$schema` Gets a collection's schema specification.
-* `[PUT] /rest/mydb/users/:id` Changes the content of certain document in
-collection `users`.
-* `[DELETE] /rest/mydb/users/:id` Removes certain document from collection
-`users`.
-* `[GET] /rest/mydb/users?filter={"username":"someuser"}` Searches for all users
-that have the _username_ `someuser`, but this requires _username_ to be an indexed
-field on collection `users`.
-* `[GET] /rest/mydb/users?filter={"username":"someuser"}&simple` Idem, but simpler
-response.
-* `[GET] /rest/mydb/users?query={"username":"someuser"}` Searches for all users
-that have the _username_ `someuser`. This doesn't require fields to be indexed; if
-they are, it will prioritize them, otherwish this call won't fail.
-* `[GET] /rest/mydb/users?query={"username":"someuser"}&simple` Idem, but simpler
-response.
+These are endpoints provided by this connector:
+<!-- AUTO:endpoints -->
+* `[GET] /rest/mydb/$info` Provides information about current database connection and it's assets.
+* `[POST] /rest/mydb/:collection/$createIndex?field=:name` Creates a field index for a collection and indexes it.
+* `[GET] /rest/mydb/:collection/$create` Triggers the creation of certain collection.
+* `[DELETE] /rest/mydb/:collection/$dropIndex?field=:name` Drops a field index from a collection.
+* `[DELETE] /rest/mydb/:collection/$drop`
+* `[GET] /rest/mydb/:collection/$indexes`
+* `[GET] /rest/mydb/:collection/$schema`
+* `[PUT] /rest/mydb/:collection/$schema` Updates a collection's schema specification.
+* `[POST] /rest/mydb/:collection/$truncate` Remove all documents from a collection. It doesn't reset indexes.
+* `[DELETE] /rest/mydb/:collection/:id`
+* `[GET] /rest/mydb/:collection/:id`
+* `[PUT] /rest/mydb/:collection/:id`
+* `[GET] /rest/mydb/:collection` Retrieves all the information inside certain collection.
+* `[POST] /rest/mydb/:collection`
+<!-- /AUTO -->
 
 # Licence
 MIT &copy; 2018 [Alejandro Dario Simi](http://daemonraco.com)
