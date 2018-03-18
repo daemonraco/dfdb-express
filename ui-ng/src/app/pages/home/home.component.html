@@ -1,0 +1,19 @@
+<div class="jumbotron mt-2">
+    <h1 class="display-4">DocsOnFileDB</h1>
+    <p class="lead">
+        <fa [name]="'database'" class="text-primary"></fa> {{restUri}}
+    </p>
+    <p>
+        This is your database at
+        <code>{{restUri}}</code> web-UI.
+    </p>
+
+    <hr class="my-4">
+
+    <button type="button" class="btn btn-lg btn-outline-info float-right mx-1" (click)="endpoints($event)">
+        <fa [name]="'plug'"></fa> Endpoints
+    </button>
+    <button type="button" class="btn btn-lg btn-outline-info float-right mx-1" (click)="database($event)">
+        <fa [name]="'database'"></fa> Database
+    </button>
+</div>

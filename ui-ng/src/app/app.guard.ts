@@ -15,14 +15,12 @@ export class AuthGuard implements CanActivate {
     canActivate() {
         let isAuthorized: boolean = false;
 
-        switch (DFDBConfig.authType) {
-            case 'basic':
-                if (this.authSrv.token()) {
-                    isAuthorized = true;
-                }
-                break;
-            default:
+        if (this.authSrv.hasLogin()) {
+            if (this.authSrv.token()) {
                 isAuthorized = true;
+            }
+        } else {
+            isAuthorized = true;
         }
 
         if (!isAuthorized) {

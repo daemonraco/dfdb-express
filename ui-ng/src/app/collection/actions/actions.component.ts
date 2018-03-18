@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { ConnectionService } from '../../services/connection.service';
-import { ModalConfirmService } from '../../services/modal-confirm.service';
-import { ModalErrorService } from '../../services/modal-error.service';
+import { ConnectionService } from '../../services';
+import { ModalConfirmService, ModalErrorService } from '../../modals';
 
 @Component({
     selector: 'ui-collection-actions',

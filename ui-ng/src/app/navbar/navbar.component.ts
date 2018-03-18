@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../services';
 
 declare var DFDBConfig;
 
@@ -8,12 +11,26 @@ declare var DFDBConfig;
     styles: []
 })
 export class NavbarComponent implements OnInit {
-    public restUri: string = '';
+    public hasLogin: boolean = false;
+    public loggedIn: boolean = false;
+    public restUri: string = DFDBConfig.restUri;
 
-    constructor() {
+    constructor(
+        private authSrv: AuthService,
+        private router: Router) {
+    }
+
+    public logout(): void {
+        this.authSrv.logout();
+        this.router.navigateByUrl('/login');
     }
 
     ngOnInit() {
-        this.restUri = DFDBConfig.restUri;
+        this.hasLogin = this.authSrv.hasLogin();
+        this.loggedIn = this.authSrv.isLoggedIn();
+
+        this.authSrv.loggedIn().subscribe(loggedIn => {
+            this.loggedIn = loggedIn;
+        });
     }
 }

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { ModalConfirmData, ModalConfirmService } from '../../services/modal-confirm.service';
+import { ModalConfirmData, ModalConfirmService } from '..';
 
 declare var $: any;
 

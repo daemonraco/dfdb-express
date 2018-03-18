@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../../services/auth.service';
-import { ModalErrorService } from '../../services/modal-error.service';
+import { AuthService } from '../../services';
+import { ModalErrorService } from '../../modals';
 
 declare var DFDBConfig: any;
 

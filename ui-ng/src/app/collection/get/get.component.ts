@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { CollectionService } from '../../services/collection.service';
-import { ModalErrorService } from '../../services/modal-error.service';
+import { CollectionService } from '../collection.service';
+import { ModalErrorService } from '../../modals';
 
 declare var DFDBConfig;
 

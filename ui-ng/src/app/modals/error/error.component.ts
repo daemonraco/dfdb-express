@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { ModalErrorData, ModalErrorService } from '../../services/modal-error.service';
+import { ModalErrorData, ModalErrorService } from '..';
 
 declare var $: any;
 

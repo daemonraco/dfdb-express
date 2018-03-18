@@ -17,8 +17,20 @@
                         <a class="dropdown-item text-white" routerLink="/">
                             <fa [name]="'home'"></fa> Home
                         </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item text-white" routerLink="/main">
+                            <fa [name]="'database'"></fa> Database
+                        </a>
                         <a class="dropdown-item text-white" routerLink="/endpoints">
-                            <fa [name]="'plug'"></fa> Endpoints</a>
+                            <fa [name]="'plug'"></fa> Endpoints
+                        </a>
+
+                        <div *ngIf="hasLogin" class="dropdown-divider"></div>
+                        <button *ngIf="hasLogin" type="button" class="dropdown-item text-white" (click)="logout()">
+                            <fa [name]="'sign-out'"></fa> Logout
+                        </button>
                     </div>
                 </li>
             </ul>

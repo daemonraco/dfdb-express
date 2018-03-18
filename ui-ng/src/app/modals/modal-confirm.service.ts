@@ -11,7 +11,6 @@ export class ModalConfirmData {
 @Injectable()
 export class ModalConfirmService {
     protected _dataSource: BehaviorSubject<ModalConfirmData> = new BehaviorSubject<ModalConfirmData>(new ModalConfirmData());
-    protected _currentData: any = this._dataSource.asObservable();
 
     constructor() {
     }
@@ -26,8 +25,8 @@ export class ModalConfirmService {
 
         this._dataSource.next(data);
     }
-    public currentData(): any {
-        return this._currentData;
+    public currentData(): BehaviorSubject<ModalConfirmData> {
+        return this._dataSource;
     }
     public hide() {
         const data: ModalConfirmData = new ModalConfirmData();

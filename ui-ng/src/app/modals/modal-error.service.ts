@@ -10,13 +10,12 @@ export class ModalErrorData {
 @Injectable()
 export class ModalErrorService {
     protected _dataSource: BehaviorSubject<ModalErrorData> = new BehaviorSubject<ModalErrorData>(new ModalErrorData());
-    protected _currentData: any = this._dataSource.asObservable();
 
     constructor() {
     }
 
-    public currentData(): any {
-        return this._currentData;
+    public currentData(): BehaviorSubject<ModalErrorData> {
+        return this._dataSource;
     }
     public hide() {
         const data: ModalErrorData = new ModalErrorData();

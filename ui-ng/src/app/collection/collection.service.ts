@@ -3,8 +3,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { AuthService } from './auth.service';
-import { LastUrlService } from './last-url.service';
+import { AuthService, LastUrlService } from '../services';
 
 declare var DFDBConfig;
 

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { ModalMessageData, ModalMessageService } from '../../services/modal-message.service';
+import { ModalMessageData, ModalMessageService } from '..';
 
 declare var $: any;
 

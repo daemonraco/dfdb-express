@@ -1,8 +1,7 @@
 import { Component,/* EventEmitter,*/ Input, OnInit/*, Output*/ } from '@angular/core';
 
-import { CollectionService } from '../../services/collection.service';
-import { ModalConfirmService } from '../../services/modal-confirm.service';
-import { ModalErrorService } from '../../services/modal-error.service';
+import { CollectionService } from '..';
+import { ModalConfirmService, ModalErrorService } from '../../modals';
 
 @Component({
     selector: 'ui-collection-indexes',

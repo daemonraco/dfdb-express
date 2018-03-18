@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { LastUrlData, LastUrlService } from '../services/last-url.service';
+import { LastUrlData, LastUrlService } from '../services';
 
 @Component({
     selector: 'ui-last-url',

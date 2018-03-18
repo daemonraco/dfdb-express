@@ -11,13 +11,12 @@ export class ModalMessageData {
 @Injectable()
 export class ModalMessageService {
     protected _dataSource: BehaviorSubject<ModalMessageData> = new BehaviorSubject<ModalMessageData>(new ModalMessageData());
-    protected _currentData: any = this._dataSource.asObservable();
 
     constructor() {
     }
 
-    public currentData(): any {
-        return this._currentData;
+    public currentData(): BehaviorSubject<ModalMessageData> {
+        return this._dataSource;
     }
     public hide() {
         const data: ModalMessageData = new ModalMessageData();

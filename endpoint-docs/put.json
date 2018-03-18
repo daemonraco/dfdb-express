@@ -1,6 +1,8 @@
 [
     {
-        "path": "/:collection/$schema"
+        "path": "/:collection/$schema",
+        "brief": "Updates a collection's schema specification.",
+        "examplesFile": "put.schema"
     },
     {
         "path": "/:collection/:id"
