@@ -29,7 +29,7 @@ export class CollectionGetIdComponent implements OnInit {
         this.results = '';
 
         if (this.documentId) {
-            this.collectionSrv.getByIt(this.collectionName, this.documentId)
+            this.collectionSrv.getById(this.collectionName, this.documentId)
                 .subscribe(data => {
                     this.results = JSON.stringify(data, null, 2);
                 }, error => {

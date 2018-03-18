@@ -1,0 +1,29 @@
+<div class="row">
+    <div *ngFor="let collection of collections" class="col-xs-12 col-sm-6 col-lg-4 p-1">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-capitalize">
+                    <fa [name]="'book'" class="text-info"></fa> {{collection.name}}
+                </h5>
+
+                <ul>
+                    <li>Path:
+                        <code>{{restUri}}/{{collection.name}}</code>
+                    </li>
+                    <li>Type:
+                        <code>{{collection.type}}</code>
+                    </li>
+                </ul>
+
+                <button *ngIf="collection.hasSchema" class="btn btn-block btn-sm btn-outline-primary" (click)="openCollection(collection, $event)">
+                    <fa [name]="'book'"></fa> View
+                </button>
+                <button *ngIf="!collection.hasSchema" class="btn btn-block btn-sm btn-outline-secondary disabled" disabled title="This collection has no schema">
+                    <i>
+                        <fa [name]="'book'"></fa> View
+                    </i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -35,7 +35,7 @@ export class CollectionService {
         this.luSrv.setUrl(url, 'get');
         return this.http.get(url, this.headers()).map(data => data.json());
     }
-    public getByIt(collectionName: string, id: string): Observable<any> {
+    public getById(collectionName: string, id: string): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/${collectionName}/${id}`;
         this.luSrv.setUrl(url, 'get');
         return this.http.get(url, this.headers()).map(data => data.json());

@@ -1,0 +1,56 @@
+<div class="col-xs-12 col-lg-8 mx-auto">
+    <div class="card">
+        <div class="card-header text-capitalize">
+            {{collectionName}}
+            <span *ngIf="!isNew">(id: {{id}})</span>
+        </div>
+
+        <div class="card-body">
+            <form (submit)="sendEntry($event)">
+                <div *ngFor="let field of fields">
+                    <div *ngIf="field.name != '_created' && field.name != '_updated'">
+
+                        <div *ngIf="field.name != '_id' && field.type == 'string'" class="form-group">
+                            <label class="text-capitalize" for="{{field.name}}">{{field.title}}</label>
+                            <input type="text" class="form-control form-control-sm" name="{{field.name}}" [(ngModel)]="data[field.name]" />
+                        </div>
+
+                        <div *ngIf="field.name != '_id' && (field.type == 'integer' || field.type == 'float')" class="form-group">
+                            <label class="text-capitalize" for="{{field.name}}">{{field.title}}</label>
+                            <input type="number" class="form-control form-control-sm" name="{{field.name}}" [(ngModel)]="data[field.name]" />
+                        </div>
+
+                        <div *ngIf="field.name != '_id' && field.type == 'boolean'" class="form-group">
+                            <label class="text-capitalize" for="{{field.name}}">{{field.title}}</label>
+                            <select class="form-control form-control-sm" name="{{field.name}}" [(ngModel)]="data[field.name]">
+                                <option [ngValue]="true">True</option>
+                                <option [ngValue]="false">False</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngFor="let field of fields">
+                    <div *ngIf="!isNew && (field.name == '_created' || field.name == '_updated')" class="form-group">
+                        <label class="text-capitalize" for="{{field.name}}">{{field.title}}</label>
+                        <input type="text" class="form-control-plaintext form-control-sm" name="{{field.name}}" [(ngModel)]="data[field.name]" readonly
+                        />
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-outline-secondary float-right mx-1" (click)="goBack($event)">
+                    <fa [name]="'arrow-left'"></fa> Back
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary float-right mx-1" (click)="reset($event)">
+                    <fa [name]="'undo'"></fa> Reset
+                </button>
+                <button type="submit" class="btn btn-sm btn-success float-left mx-1" [class.btn-secondary]="saving" [disabled]="saving">
+                    <div *ngIf="!isNew">
+                        <fa [name]="'save'"></fa> Save</div>
+                    <div *ngIf="isNew">
+                        <fa [name]="'plus'"></fa> Add</div>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

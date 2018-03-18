@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './app.guard';
 
 import { AppRoutingModule } from './app-routing.module';
+import { CleverEditorModule } from './clever-editor';
 import { CollectionModule } from './collection';
 import { ModalsModule } from './modals';
 import { ServicesModule } from './services';
@@ -35,6 +36,7 @@ import { PageMainComponent } from './pages/main/main.component';
         Angular2FontawesomeModule,
         AppRoutingModule,
         BrowserModule,
+        CleverEditorModule,
         CollectionModule,
         FormsModule,
         HttpModule,
