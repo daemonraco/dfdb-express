@@ -52,7 +52,7 @@ export = {
 
                                 html = html.replace(`<title>DocsOnFileDB</title>`, `<title>DocsOnFileDB: ${response.ui.restUri}</title>`);
                                 html = html.replace(`<base href="/">`, `<base href="${response.ui.uri}/">`);
-                                html = html.replace(`href="/assets/icon-24px.png"`, `href="${response.ui.uri}/assets/icon-24px.png"`);
+                                html = html.replace(/(href|src)="\/assets\//g, `$1="${response.ui.uri}/assets/`);
 
                                 htmlCache[key] = html;
                             }

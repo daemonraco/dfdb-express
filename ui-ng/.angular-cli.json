@@ -23,11 +23,7 @@
                 "../node_modules/font-awesome/css/font-awesome.css",
                 "styles.scss"
             ],
-            "scripts": [
-                "../node_modules/jquery/dist/jquery.min.js",
-                "../node_modules/popper.js/dist/popper.min.js",
-                "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ],
+            "scripts": [],
             "environmentSource": "environments/environment.ts",
             "environments": {
                 "dev": "environments/environment.ts",
