@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { CollectionService } from '../../collection';
-import { AuthService } from '../../services';
+import { AuthService, LoadingService } from '../../services';
 import { ModalConfirmService, ModalErrorService } from '../../modals';
 
 import { Tools } from '../tools';
@@ -29,6 +29,7 @@ export class CollectionEditComponent implements OnInit {
     constructor(
         private coll: CollectionService,
         private authSrv: AuthService,
+        private lSrv: LoadingService,
         private mcSrv: ModalConfirmService,
         private meSrv: ModalErrorService,
         private route: ActivatedRoute,
@@ -42,7 +43,11 @@ export class CollectionEditComponent implements OnInit {
         this.data = JSON.parse(JSON.stringify(this.dataReset));
     }
     public sendEntry(event: any): void {
+        this.lSrv.show('Saving...');
+
         const wrong: any = error => {
+            this.lSrv.hide();
+
             if (error.status == 403) {
                 this.authSrv.logout();
                 this.router.navigateByUrl('/login');
@@ -63,11 +68,14 @@ export class CollectionEditComponent implements OnInit {
                 .subscribe(data => {
                     this.data = data;
                     this.dataReset = JSON.parse(JSON.stringify(this.data));
+                    this.lSrv.hide();
                 }, wrong);
         }
     }
 
     ngOnInit() {
+        this.lSrv.show();
+
         this.route.params.subscribe((params: ParamMap) => {
             this.collectionName = params['collectionName'];
             this.id = params['id'];
@@ -79,10 +87,15 @@ export class CollectionEditComponent implements OnInit {
     }
 
     protected loadData(): void {
-        this.coll.getById(this.collectionName, this.id).subscribe(data => {
-            this.data = data;
-            this.dataReset = JSON.parse(JSON.stringify(this.data));
-        });
+        if (this.isNew) {
+            this.lSrv.hide();
+        } else {
+            this.coll.getById(this.collectionName, this.id).subscribe(data => {
+                this.data = data;
+                this.dataReset = JSON.parse(JSON.stringify(this.data));
+                this.lSrv.hide();
+            });
+        }
     }
     protected loadSchema(): void {
         this.coll.schema(this.collectionName).subscribe(schema => {
@@ -94,6 +107,8 @@ export class CollectionEditComponent implements OnInit {
 
             this.loadData();
         }, error => {
+            this.lSrv.hide();
+
             if (error.status == 403) {
                 this.authSrv.logout();
                 this.router.navigateByUrl('/login');

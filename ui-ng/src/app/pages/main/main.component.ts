@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService, ConnectionService } from '../../services';
+import { AuthService, ConnectionService, LoadingService } from '../../services';
 import { ModalErrorService } from '../../modals';
 
 @Component({
@@ -10,7 +10,7 @@ import { ModalErrorService } from '../../modals';
     styles: [],
     providers: [ConnectionService]
 })
-export class PageMainComponent implements OnInit {
+export class PageMainComponent implements AfterViewChecked, OnInit {
     public name: string = '';
 
     public collections: any[] = [];
@@ -18,6 +18,7 @@ export class PageMainComponent implements OnInit {
     constructor(
         private conn: ConnectionService,
         private authSrv: AuthService,
+        private lSrv: LoadingService,
         private meSrv: ModalErrorService,
         private router: Router) {
     }
@@ -58,7 +59,12 @@ export class PageMainComponent implements OnInit {
             });
     }
 
+    ngAfterViewChecked() {
+        this.lSrv.hide();
+    }
     ngOnInit() {
         this.loadCollections();
+
+        this.lSrv.show();
     }
 }

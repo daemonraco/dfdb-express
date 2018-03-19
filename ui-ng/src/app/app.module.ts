@@ -20,6 +20,7 @@ import { PageEndpointsComponent } from './pages/endpoints/endpoints.component';
 import { PageHomeComponent } from './pages/home/home.component';
 import { PageLoginComponent } from './pages/login/login.component';
 import { PageMainComponent } from './pages/main/main.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { PageMainComponent } from './pages/main/main.component';
         PageEndpointsComponent,
         PageLoginComponent,
         PageMainComponent,
-        PageHomeComponent
+        PageHomeComponent,
+        LoadingComponent
     ],
     imports: [
         Angular2FontawesomeModule,

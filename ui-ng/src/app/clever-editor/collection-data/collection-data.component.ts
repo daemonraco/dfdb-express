@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { CollectionService } from '../../collection';
-import { AuthService } from '../../services';
+import { AuthService, LoadingService } from '../../services';
 import { ModalConfirmService, ModalErrorService } from '../../modals';
 
 import { Tools } from '../tools';
@@ -25,6 +25,7 @@ export class CollectionDataComponent implements OnInit {
     constructor(
         private coll: CollectionService,
         private authSrv: AuthService,
+        private lSrv: LoadingService,
         private mcSrv: ModalConfirmService,
         private meSrv: ModalErrorService,
         private route: ActivatedRoute,
@@ -37,11 +38,15 @@ export class CollectionDataComponent implements OnInit {
     public deleteEntry(entry: any, event: any): void {
         const callback = (confirmed: boolean) => {
             if (confirmed) {
+                this.lSrv.show();
+
                 this.coll.delete(this.collectionName, entry._id)
                     .subscribe(() => {
                         this.data = [];
                         this.loadData();
                     }, error => {
+                        this.lSrv.hide();
+
                         this.meSrv.show([
                             `<pre>${JSON.stringify(JSON.parse(error._body), null, 2)}</pre>`
                         ], `${error.status}: ${error.statusText}`);
@@ -61,6 +66,8 @@ export class CollectionDataComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.lSrv.show();
+
         this.route.params.subscribe((params: ParamMap) => {
             this.collectionName = params['collectionName'];
             this.loadSchema();
@@ -68,9 +75,14 @@ export class CollectionDataComponent implements OnInit {
     }
 
     protected loadData(): void {
+        this.lSrv.show();
+
         this.coll.get(this.collectionName, {}, true).subscribe(data => {
             this.data = data;
+            this.lSrv.hide();
         }, error => {
+            this.lSrv.hide();
+
             if (error.status == 403) {
                 this.authSrv.logout();
                 this.router.navigateByUrl('/login');
@@ -91,6 +103,8 @@ export class CollectionDataComponent implements OnInit {
 
             this.loadData();
         }, error => {
+            this.lSrv.hide();
+
             if (error.status == 403) {
                 this.authSrv.logout();
                 this.router.navigateByUrl('/login');

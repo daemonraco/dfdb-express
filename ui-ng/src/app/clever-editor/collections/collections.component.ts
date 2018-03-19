@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CollectionService } from '../../collection';
-import { AuthService, ConnectionService } from '../../services';
+import { AuthService, ConnectionService, LoadingService } from '../../services';
 import { ModalErrorService } from '../../modals';
 
 declare var DFDBConfig;
@@ -19,12 +19,14 @@ declare var DFDBConfig;
 export class CollectionsComponent implements OnInit {
     public collections: any[] = [];
     public restUri: string = DFDBConfig.restUri;
+    public loadingCount: number = 0;
     public uiUri: string = DFDBConfig.uiUri;
 
     constructor(
         private coll: CollectionService,
         private conn: ConnectionService,
         private authSrv: AuthService,
+        private lSrv: LoadingService,
         private meSrv: ModalErrorService,
         private router: Router) {
     }
@@ -34,6 +36,7 @@ export class CollectionsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.lSrv.show();
         this.loadCollections();
     }
 
@@ -41,10 +44,16 @@ export class CollectionsComponent implements OnInit {
         this.collections.forEach(col => {
             this.coll.schema(col.name).subscribe(data => {
                 col.hasSchema = data !== null;
+                this.loadingCount--;
+
+                if (this.loadingCount === 0) {
+                    this.lSrv.hide();
+                }
             });
         });
     }
     protected loadCollections(): void {
+
         this.conn.info()
             .subscribe(data => {
                 this.collections = [];
@@ -57,8 +66,11 @@ export class CollectionsComponent implements OnInit {
                         this.collections.push(aux);
                     });
 
+                this.loadingCount = this.collections.length;
                 this.loadCollectionSchemas();
             }, error => {
+                this.lSrv.hide();
+
                 if (error.status == 403) {
                     this.authSrv.logout();
                     this.router.navigateByUrl('/login');
