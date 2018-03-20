@@ -11,10 +11,16 @@
                     <option [ngValue]="false">Complete</option>
                     <option [ngValue]="true">Simple</option>
                 </select>
+                <small class="form-text text-muted d-none d-md-block">
+                    Whether to retrieve a
+                    <i>simple</i> list of documents, or a
+                    <i>complex</i> one containing documents extra information about the search.
+                </small>
             </div>
 
             <div class="form-group">
                 <textarea [(ngModel)]="filter" name="filter" class="form-control form-control-sm" rows="5" placeholder="{}"></textarea>
+                <small class="form-text text-muted d-none d-md-block">JSON to be used as query.</small>
             </div>
 
             <button type="submit" class="btn btn-sm btn-outline-success">

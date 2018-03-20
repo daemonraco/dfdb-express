@@ -21,7 +21,7 @@
         </tbody>
     </table>
 
-    <form name="create-field-index" (submit)="createFieldIndex($event)" class="mt-5">
+    <form name="create-field-index" (submit)="createFieldIndex($event)" [class.mt-5]="indexes.length > 0">
         <div class="input-group input-group-sm mb-3">
             <input type="text" name="indexName" [(ngModel)]="indexName" class="form-control form-control-sm" placeholder="Field name..."
                 aria-describedby="basic-addon2">

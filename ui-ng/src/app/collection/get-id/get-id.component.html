@@ -7,7 +7,8 @@
         <form name="form_collection_GETID" (submit)="submitQuery($event)">
             <h5>Filter</h5>
             <div class="form-group">
-                <input [(ngModel)]="documentId" name="documentId" type="text" class="form-control form-control-sm" placeholder="id..." />
+                <input [(ngModel)]="documentId" name="documentId" type="text" class="form-control form-control-sm" placeholder="Id..." />
+                <small class="form-text text-muted d-none d-md-block">ID of the document to look for.</small>
             </div>
 
             <button type="submit" class="btn btn-sm btn-outline-success">
