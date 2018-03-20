@@ -14,7 +14,8 @@
         "brief": "Triggers the creation of certain collection."
     },
     {
-        "path": "/:collection/$schema"
+        "path": "/:collection/$schema",
+        "brief": "Retrieves a colections's schema definition."
     },
     {
         "path": "/:collection/$indexes"

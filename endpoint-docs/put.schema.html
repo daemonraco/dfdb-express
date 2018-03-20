@@ -1,6 +1,19 @@
-<p>%brief%</p>
-<p>For example:</p>
+<p class="lead">%brief%</p>
 <code>Path: %path%</code>
+
+<hr/>
+
+<p>
+    This endpoint allows to update a collection's schema definition. Such schema is validated before any insertion or update
+    of documents and may trigger errors.
+</p>
+<p>
+    If you want more information about these schemas and how to define them, you may visit
+    <a href="http://json-schema.org/" target="_blank">json-schema.org</a> (if you need some
+    <a href="http://json-schema.org/examples.html" target="_blank">examples</a>).
+</p>
+
+<p>For example:</p>
 <pre class="border border-secondary rounded p-2">{
     "type": "object",
     "properties": {
@@ -10,3 +23,8 @@
     },
     "required": ["username", "age"]
 }</pre>
+
+<p>
+    <strong>Note:</strong> When setting or updating a collection's schema,
+    <i>DocsOnFileDB</i> will validated it before actually setting to avoid inconsistent documents.
+</p>

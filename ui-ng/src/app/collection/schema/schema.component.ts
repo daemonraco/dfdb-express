@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { CollectionService } from '..';
+import { LoadingService } from '../../services';
 import { ModalErrorService } from '../../modals';
 
 declare var DFDBConfig;
@@ -21,6 +22,7 @@ export class CollectionSchemaComponent implements OnInit {
 
     constructor(
         private collectionSrv: CollectionService,
+        private lSrv: LoadingService,
         private meSrv: ModalErrorService) {
     }
 
@@ -48,11 +50,14 @@ export class CollectionSchemaComponent implements OnInit {
 
         if (!parsedSchemaFailed) {
             this.tidy(null);
+            this.lSrv.show();
 
             this.collectionSrv.setSchema(this.collectionName, parsedSchema)
                 .subscribe(data => {
                     this.results = JSON.stringify(data, null, 2);
+                    this.lSrv.hide();
                 }, error => {
+                    this.lSrv.hide();
                     this.error = error;
                     this.error.body = JSON.stringify(JSON.parse(this.error._body), null, 2);
                 });

@@ -1,6 +1,7 @@
-import { Component,/* EventEmitter,*/ Input, OnInit/*, Output*/ } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { CollectionService } from '..';
+import { LoadingService } from '../../services';
 import { ModalConfirmService, ModalErrorService } from '../../modals';
 
 @Component({
@@ -11,24 +12,29 @@ import { ModalConfirmService, ModalErrorService } from '../../modals';
 })
 export class CollectionIndexesComponent implements OnInit {
     @Input('collection') public collectionName: string;
-    // @Output('reloadCollections') public reloadCollections: EventEmitter<any> = new EventEmitter<any>();
 
     public indexes: any[] = [];
     public indexName: string = '';
 
     constructor(
         private colSrv: CollectionService,
+        private lSrv: LoadingService,
         private mcSrv: ModalConfirmService,
         private meSrv: ModalErrorService) {
     }
 
     public createFieldIndex(event: any): void {
         if (this.indexName) {
+            this.lSrv.show();
+
             this.colSrv.createFieldIndex(this.collectionName, this.indexName)
                 .subscribe(data => {
                     this.indexName = '';
-                    this.loadIndexes();
+                    this.loadIndexes(() => {
+                        this.lSrv.hide();
+                    });
                 }, error => {
+                    this.lSrv.hide();
                     this.meSrv.show([
                         `Error: <code>${JSON.stringify(JSON.parse(error._body), null, 2)}</code>`
                     ], `${error.status}: ${error.statusText}`);
@@ -40,10 +46,15 @@ export class CollectionIndexesComponent implements OnInit {
     public dropFieldIndex(index: any, event: any): void {
         const callback = (confirmed: boolean) => {
             if (confirmed) {
+                this.lSrv.show();
+
                 this.colSrv.dropFieldIndex(this.collectionName, index.field)
                     .subscribe(data => {
-                        this.loadIndexes();
+                        this.loadIndexes(() => {
+                            this.lSrv.hide();
+                        });
                     }, error => {
+                        this.lSrv.hide();
                         this.meSrv.show([
                             `Error: <code>${JSON.stringify(JSON.parse(error._body), null, 2)}</code>`
                         ], `${error.status}: ${error.statusText}`);
@@ -61,12 +72,18 @@ export class CollectionIndexesComponent implements OnInit {
         setTimeout(() => this.loadIndexes(), 1000);
     }
 
-    protected loadIndexes(): void {
+    protected loadIndexes(done: () => void = null): void {
+        if (!done) {
+            done = () => { };
+        }
+
         this.colSrv.indexes(this.collectionName).subscribe(data => {
             this.indexes = [];
             Object.keys(data).sort().forEach(key => {
                 this.indexes.push(data[key]);
             });
+
+            done();
         });
     }
 }

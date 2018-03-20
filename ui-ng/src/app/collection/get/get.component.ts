@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { CollectionService } from '../collection.service';
+import { LoadingService } from '../../services';
 import { ModalErrorService } from '../../modals';
 
 declare var DFDBConfig;
@@ -22,6 +23,7 @@ export class CollectionGetComponent implements OnInit {
 
     constructor(
         private collectionSrv: CollectionService,
+        private lSrv: LoadingService,
         private meSrv: ModalErrorService) {
     }
 
@@ -39,11 +41,14 @@ export class CollectionGetComponent implements OnInit {
 
         if (parsedFilter) {
             this.filter = JSON.stringify(parsedFilter, null, 2);
+            this.lSrv.show();
 
             this.collectionSrv.get(this.collectionName, this.filter, this.simple)
                 .subscribe(data => {
                     this.results = JSON.stringify(data, null, 2);
+                    this.lSrv.hide();
                 }, error => {
+                    this.lSrv.hide();
                     this.error = error;
                     this.error.body = JSON.stringify(JSON.parse(this.error._body), null, 2);
                 });

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { ConnectionService } from '../../services';
+import { ConnectionService, LoadingService } from '../../services';
 import { ModalConfirmService, ModalErrorService } from '../../modals';
 
 @Component({
@@ -14,6 +14,7 @@ export class CollectionActionsComponent implements OnInit {
 
     constructor(
         private connSrv: ConnectionService,
+        private lSrv: LoadingService,
         private mcSrv: ModalConfirmService,
         private meSrv: ModalErrorService) {
     }
@@ -21,10 +22,14 @@ export class CollectionActionsComponent implements OnInit {
     public dropCollection($event): void {
         const callback = (confirmed: boolean) => {
             if (confirmed) {
+                this.lSrv.show();
+
                 this.connSrv.dropCollection(this.collectionName)
                     .subscribe(data => {
                         this.reloadCollections.emit(null);
+                        this.lSrv.hide();
                     }, error => {
+                        this.lSrv.hide();
                         this.meSrv.show([
                             `<pre>${JSON.stringify(JSON.parse(error._body), null, 2)}</pre>`
                         ], `${error.status}: ${error.statusText}`);
@@ -39,10 +44,14 @@ export class CollectionActionsComponent implements OnInit {
     public truncateCollection($event): void {
         const callback = (confirmed: boolean) => {
             if (confirmed) {
+                this.lSrv.show();
+
                 this.connSrv.truncateCollection(this.collectionName)
                     .subscribe(data => {
                         this.reloadCollections.emit(null);
+                        this.lSrv.hide();
                     }, error => {
+                        this.lSrv.hide();
                         this.meSrv.show([
                             `<pre>${JSON.stringify(JSON.parse(error._body), null, 2)}</pre>`
                         ], `${error.status}: ${error.statusText}`);
