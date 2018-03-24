@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //
 // Importing 'dfdb-express' middleware.
-const expressConnector = require('../..').middleware;
+const expressConnector = require('dfdb-express').middleware;
 //
 // Telling express to handle database API accesses on the URI '/rest/mydb'.
 // Of course 'dbname' and 'dbpath' are the basic parameters required by

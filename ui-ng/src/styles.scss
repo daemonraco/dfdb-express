@@ -19,6 +19,14 @@ body {
             }
         }
     }
+    .ui-collection {
+        form {
+            small.form-text {
+                @extend .d-none;
+                @extend .d-md-block;
+            }
+        }
+    }
     ui-loading-overlay {
         $ui-loading-overlay-opcacity: .8;
         @keyframes fade-in-overlay {
