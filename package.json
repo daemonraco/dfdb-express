@@ -4,6 +4,9 @@
     "description": "This is a simple extension to easily expose a DocsOnFileDB through Express as a RESTful API.",
     "main": "lib/index",
     "types": "lib/index",
+    "bin": {
+        "dfdb-server": "./server/server-cmd.js"
+    },
     "scripts": {
         "start": "npm run build:live",
         "build": "./node_modules/.bin/tsc",
@@ -34,8 +37,11 @@
         "typescript": "^2.4.1"
     },
     "dependencies": {
+        "body-parser": "^1.18.2",
+        "chalk": "^2.3.2",
+        "commander": "^2.15.1",
         "dfdb": "^0.2.3",
         "es6-promise": "^4.2.4",
-        "express": "^4.16.2"
+        "express": "^4.16.3"
     }
 }

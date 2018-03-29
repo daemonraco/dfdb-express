@@ -21,6 +21,7 @@ import { PageHomeComponent } from './pages/home/home.component';
 import { PageLoginComponent } from './pages/login/login.component';
 import { PageMainComponent } from './pages/main/main.component';
 import { LoadingComponent } from './loading/loading.component';
+import { MeComponent } from './me/me.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { LoadingComponent } from './loading/loading.component';
         PageLoginComponent,
         PageMainComponent,
         PageHomeComponent,
-        LoadingComponent
+        LoadingComponent,
+        MeComponent
     ],
     imports: [
         Angular2FontawesomeModule,

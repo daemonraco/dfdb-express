@@ -15,7 +15,7 @@
     },
     {
         "path": "/:collection/$schema",
-        "brief": "Retrieves a colections's schema definition."
+        "brief": "Retrieves a collection's schema definition."
     },
     {
         "path": "/:collection/$indexes"

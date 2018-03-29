@@ -93,7 +93,7 @@ These are endpoints provided by this connector:
 * `[DELETE] /rest/mydb/:collection/$dropIndex?field=:name` Drops a field index from a collection.
 * `[DELETE] /rest/mydb/:collection/$drop`
 * `[GET] /rest/mydb/:collection/$indexes`
-* `[GET] /rest/mydb/:collection/$schema`
+* `[GET] /rest/mydb/:collection/$schema` Retrieves a collection's schema definition.
 * `[PUT] /rest/mydb/:collection/$schema` Updates a collection's schema specification.
 * `[POST] /rest/mydb/:collection/$truncate` Remove all documents from a collection. It doesn't reset indexes.
 * `[DELETE] /rest/mydb/:collection/:id`

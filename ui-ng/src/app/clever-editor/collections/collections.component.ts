@@ -36,23 +36,27 @@ export class CollectionsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.lSrv.show();
         this.loadCollections();
     }
 
     protected loadCollectionSchemas(): void {
-        this.collections.forEach(col => {
-            this.coll.schema(col.name).subscribe(data => {
-                col.hasSchema = data !== null;
-                this.loadingCount--;
+        if (this.collections.length > 0) {
+            this.collections.forEach(col => {
+                this.coll.schema(col.name).subscribe(data => {
+                    col.hasSchema = data !== null;
+                    this.loadingCount--;
 
-                if (this.loadingCount === 0) {
-                    this.lSrv.hide();
-                }
+                    if (this.loadingCount === 0) {
+                        this.lSrv.hide();
+                    }
+                });
             });
-        });
+        } else {
+            this.lSrv.hide();
+        }
     }
     protected loadCollections(): void {
+        this.lSrv.show();
 
         this.conn.info()
             .subscribe(data => {
