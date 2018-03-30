@@ -15,7 +15,7 @@ export class Tools {
         }
 
         if (typeof schema.properties === 'object') {
-            const acceptedTypes = ['string', 'integer', 'float', 'boolean']
+            const acceptedTypes = ['boolean', 'float', 'integer', 'number', 'string']
             Object.keys(schema.properties).forEach((key: string) => {
                 const entry: any = schema.properties[key];
                 if (acceptedTypes.indexOf(entry.type) > -1) {

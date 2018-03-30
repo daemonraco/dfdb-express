@@ -15,6 +15,8 @@ export declare class Post extends Method {
     protected insert(collectionName: string, document: {
         [name: string]: any;
     }): Promise<Response>;
+    protected reinitialize(): Promise<Response>;
+    protected setInitializer(data: any): Promise<Response>;
     protected setKnownEndpoints(): void;
     protected truncate(collectionName: string): Promise<Response>;
 }

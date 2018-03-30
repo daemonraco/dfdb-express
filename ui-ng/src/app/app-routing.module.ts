@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PageEndpointsComponent } from './pages/endpoints/endpoints.component';
 import { PageHomeComponent } from './pages/home/home.component';
+import { PageInitializerComponent } from './pages/initializer/initializer.component';
 import { PageLoginComponent } from './pages/login/login.component';
 import { PageMainComponent } from './pages/main/main.component';
 import { MeComponent } from './me/me.component';
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: 'ce/collections/:collectionName', component: CleverEditorCollectionDataComponent, canActivate: [AuthGuard] },
     { path: 'ce/collections', component: CleverEditorCollectionsComponent, canActivate: [AuthGuard] },
     { path: 'endpoints', component: PageEndpointsComponent, canActivate: [AuthGuard] },
+    { path: 'initializer', component: PageInitializerComponent, canActivate: [AuthGuard] },
     { path: 'main', component: PageMainComponent, canActivate: [AuthGuard] },
     { path: 'login', component: PageLoginComponent },
     { path: 'egg', component: MeComponent },

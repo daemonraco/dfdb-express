@@ -15,7 +15,11 @@ export class Post extends Method {
     public process(params: { [name: string]: any }): Promise<Response> {
         let results: Promise<Response> = null;
 
-        if (params.collection && params.id === '$truncate') {
+        if (params.collection === '$initializer' && !params.id) {
+            results = this.setInitializer(params.body);
+        } else if (params.collection === '$reinitialize' && !params.id) {
+            results = this.reinitialize();
+        } else if (params.collection && params.id === '$truncate') {
             results = this.truncate(params.collection);
         } else if (params.collection && params.id === '$createIndex') {
             results = this.createFieldIndex(params.collection, params);
@@ -63,6 +67,26 @@ export class Post extends Method {
             } else {
                 this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
             }
+        });
+    }
+    protected reinitialize(): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            this._connection.reinitialize()
+                .then(() => {
+                    resolve(result);
+                }).catch((err: string) => this.rejectWithCode500(err, reject));
+        });
+    }
+    protected setInitializer(data: any): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            this._connection.setInitializerFromJSON(data)
+                .then(() => {
+                    resolve(result);
+                }).catch((err: string) => this.rejectWithCode500(err, reject));
         });
     }
     protected setKnownEndpoints(): void {

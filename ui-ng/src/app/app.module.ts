@@ -18,6 +18,7 @@ import { LastUrlComponent } from './last-url/last-url.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageEndpointsComponent } from './pages/endpoints/endpoints.component';
 import { PageHomeComponent } from './pages/home/home.component';
+import { PageInitializerComponent } from './pages/initializer/initializer.component';
 import { PageLoginComponent } from './pages/login/login.component';
 import { PageMainComponent } from './pages/main/main.component';
 import { LoadingComponent } from './loading/loading.component';
@@ -30,6 +31,7 @@ import { MeComponent } from './me/me.component';
         LastUrlComponent,
         NavbarComponent,
         PageEndpointsComponent,
+        PageInitializerComponent,
         PageLoginComponent,
         PageMainComponent,
         PageHomeComponent,

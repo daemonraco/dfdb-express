@@ -23,7 +23,7 @@ export class CollectionPostComponent implements OnInit {
     constructor(
         private collectionSrv: CollectionService,
         private lSrv: LoadingService,
-        private emSrv: ModalErrorService) {
+        private meSrv: ModalErrorService) {
     }
 
     public submitQuery(event): void {
@@ -32,7 +32,7 @@ export class CollectionPostComponent implements OnInit {
 
         let parsedData: any = null;
         try { parsedData = JSON.parse(this.data); } catch (e) {
-            this.emSrv.show([
+            this.meSrv.show([
                 `Given data JSON seems to be invalid.`,
                 `${e}`
             ]);
