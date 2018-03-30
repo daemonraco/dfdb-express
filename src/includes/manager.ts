@@ -115,6 +115,15 @@ export class Manager {
                     results.errorBody = `This API does not require authorization.`;
                     reject(results);
                 }
+            } else if (fullUiUrlMatches) {
+                results.ui = new UIData();
+
+                results.ui.restUri = this._restPath;
+                results.ui.uri = this._uiPath;
+                results.ui.subUri = fullUiUrlMatches[1];
+                results.ui.authType = this._authType;
+
+                resolve(results);
             } else if (fullUrlMatches) {
                 if (!headerAuthorized) {
                     results.status = 403;
@@ -149,15 +158,6 @@ export class Manager {
                         reject(results);
                     }
                 }
-            } else if (fullUiUrlMatches) {
-                results.ui = new UIData();
-
-                results.ui.restUri = this._restPath;
-                results.ui.uri = this._uiPath;
-                results.ui.subUri = fullUiUrlMatches[1];
-                results.ui.authType = this._authType;
-
-                resolve(results);
             } else {
                 results.skip = true;
                 reject(results);
