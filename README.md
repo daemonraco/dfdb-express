@@ -13,6 +13,7 @@ This is a simple extension to easily expose a DocsOnFileDB through Express as a 
 - [Installation](#installation)
 - [How to use](#how-to-use)
 - [Endpoints](#endpoints)
+- [Basic server](#basic-server)
 - [Licence](#licence)
 
 <!-- /TOC -->
@@ -88,6 +89,8 @@ http.createServer(app).listen(port, () => {
 These are endpoints provided by this connector:
 <!-- AUTO:endpoints -->
 * `[GET] /rest/mydb/$info` Provides information about current database connection and it's assets.
+* `[POST] /rest/mydb/$initializer` Replaces a database initialization spec.
+* `[POST] /rest/mydb/$reinitialize` Triggers a check-up of a database initialization spec.
 * `[POST] /rest/mydb/:collection/$createIndex?field=:name` Creates a field index for a collection and indexes it.
 * `[GET] /rest/mydb/:collection/$create` Triggers the creation of certain collection.
 * `[DELETE] /rest/mydb/:collection/$dropIndex?field=:name` Drops a field index from a collection.
@@ -102,6 +105,17 @@ These are endpoints provided by this connector:
 * `[GET] /rest/mydb/:collection` Retrieves all the information inside certain collection.
 * `[POST] /rest/mydb/:collection`
 <!-- /AUTO -->
+
+# Basic server
+If you don't want to go through all the step of creating a server but you still
+want to see your database in a _web interfase_, you may run something like this
+(assuming your database is at `/path/to/mydb.dfdb`):
+```sh
+dfdb-server --database /path/to/mydb
+```
+This will load this two urls:
+* `http://localhost:3005/rest`: RESTful access to your database.
+* `http://localhost:3005/ui`: Web-UI access to your database.
 
 # Licence
 MIT &copy; 2018 [Alejandro Dario Simi](http://daemonraco.com)

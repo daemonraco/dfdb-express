@@ -3,6 +3,7 @@
  * @author Alejandro D. Simi
  */
 import { Promise } from 'es6-promise';
+import { AuthTokenList } from './auth-token';
 import { Method } from './method';
 import { MethodEndpoint } from "./method-endpoint";
 import { Response } from './response';
@@ -10,6 +11,8 @@ export declare type ValuesList = {
     [name: string]: any;
 };
 export declare class Manager {
+    protected static _ExpireSessionsInterval: any;
+    protected static _ManagerAuthTokens: AuthTokenList;
     protected _auth: (req: ValuesList) => boolean;
     protected _catchToken: (token: string) => void;
     protected _authType: string;
@@ -43,4 +46,5 @@ export declare class Manager {
      */
     protected parseOptions(): void;
     protected postEndpoints(): MethodEndpoint[];
+    protected static ExpireSessions(): void;
 }

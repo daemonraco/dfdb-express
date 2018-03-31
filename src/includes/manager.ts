@@ -17,9 +17,13 @@ import { Response, UIData } from './response';
 
 export type ValuesList = { [name: string]: any };
 
-const ManagerAuthTokens: AuthTokenList = {};
-
 export class Manager {
+    //
+    // Protected class proterties.
+    protected static _ExpireSessionsInterval: any = null;
+    protected static _ManagerAuthTokens: AuthTokenList = {};
+    //
+    // Protected proterties.
     protected _auth: (req: ValuesList) => boolean = null;
     protected _catchToken: (token: string) => void = null;
     protected _authType: string = null;
@@ -59,6 +63,10 @@ export class Manager {
         this._fullUrlPattern = RegExp(`^${this._restPath}(.*)`);
         this._fullUiUrlPattern = this._uiPath ? RegExp(`^${this._uiPath}(.*)`) : null;
         this._authUrlPattern = RegExp(`^${this._restPath}-auth/(login|logout)`);
+
+        if (this._auth) {
+            Manager.ExpireSessions();
+        }
     }
 
     public endpoints(full: boolean): any[] {
@@ -76,11 +84,11 @@ export class Manager {
 
             let headerAuthorized: boolean = this._auth ? false : true;
             if (!headerAuthorized && typeof req.headers['authorization'] !== 'undefined') {
-                if (typeof ManagerAuthTokens[req.headers['authorization']] !== 'undefined') {
-                    if (ManagerAuthTokens[req.headers['authorization']].expired()) {
-                        delete ManagerAuthTokens[req.headers['authorization']];
+                if (typeof Manager._ManagerAuthTokens[req.headers['authorization']] !== 'undefined') {
+                    if (Manager._ManagerAuthTokens[req.headers['authorization']].expired()) {
+                        delete Manager._ManagerAuthTokens[req.headers['authorization']];
                     } else {
-                        ManagerAuthTokens[req.headers['authorization']].refresh();
+                        Manager._ManagerAuthTokens[req.headers['authorization']].refresh();
                         headerAuthorized = true;
                     }
                 }
@@ -95,7 +103,7 @@ export class Manager {
                         resolve(results);
                     } else if (this._auth(req)) {
                         const aux = new AuthToken();
-                        ManagerAuthTokens[aux.code()] = aux;
+                        Manager._ManagerAuthTokens[aux.code()] = aux;
                         this._catchToken(aux.code());
 
                         results.body = {
@@ -332,5 +340,18 @@ export class Manager {
         }
 
         return out;
+    }
+    //
+    // Protected class metods.
+    protected static ExpireSessions(): void {
+        if (Manager._ExpireSessionsInterval === null) {
+            Manager._ExpireSessionsInterval = setInterval(() => {
+                Object.keys(Manager._ManagerAuthTokens).forEach((sessionId: string) => {
+                    if (Manager._ManagerAuthTokens[sessionId].expired()) {
+                        delete Manager._ManagerAuthTokens[sessionId];
+                    }
+                });
+            }, 1000);
+        }
     }
 };

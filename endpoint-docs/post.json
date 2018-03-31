@@ -8,6 +8,14 @@
         "brief": "Creates a field index for a collection and indexes it."
     },
     {
+        "path": "/$initializer",
+        "brief": "Replaces a database initialization spec."
+    },
+    {
+        "path": "/$reinitialize",
+        "brief": "Triggers a check-up of a database initialization spec."
+    },
+    {
         "path": "/:collection"
     }
 ]
