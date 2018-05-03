@@ -13,7 +13,7 @@ const tools = require('./tools');
 let error = null;
 
 commander
-    .version(tools.version(), '-v --version')
+    .version(tools.version(), '-v, --version')
     .option('-d, --database [path]', 'Database that has to be served.')
     .option('-p, --port [port-number]', 'Port number.')
     .option('-P, --password [code]', 'Connection password')
