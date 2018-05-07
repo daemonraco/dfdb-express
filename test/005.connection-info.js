@@ -30,8 +30,9 @@ describe(`dfdb: Checking connection's information [005]`, function () {
                 }
 
                 assert.isObject(body);
-                assert.strictEqual(Object.keys(body).length, 2);
+                assert.strictEqual(Object.keys(body).length, 3);
                 assert.isObject(body.collections);
+                assert.isArray(body.endpoints);
                 assert.isObject(body.initializer);
 
                 assert.isObject(body.collections.with_schema);
