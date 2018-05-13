@@ -7,8 +7,25 @@
         <form name="form_collection_DELETE" (submit)="submitQuery($event)">
             <h5>Filter</h5>
             <div class="form-group">
+                <select [(ngModel)]="single" name="single" class="form-control form-control-sm">
+                    <option [ngValue]="false">Multiple</option>
+                    <option [ngValue]="true">Single</option>
+                </select>
+                <small class="form-text text-muted">
+                    Whether to affect one (
+                    <kbd>single</kbd>) or more than one at the same time (
+                    <kbd>multiple</kbd>).
+                </small>
+            </div>
+
+            <div *ngIf="single" class="form-group">
                 <input [(ngModel)]="documentId" name="documentId" type="text" class="form-control form-control-sm" placeholder="Id..." />
                 <small class="form-text text-muted">ID of the document to be removed.</small>
+            </div>
+
+            <div *ngIf="!single" class="form-group">
+                <textarea [(ngModel)]="filter" name="filter" class="form-control form-control-sm" rows="5" placeholder="{}"></textarea>
+                <small class="form-text text-muted">JSON to be used as query.</small>
             </div>
 
             <button type="submit" class="btn btn-sm btn-outline-danger">

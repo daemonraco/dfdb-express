@@ -17,6 +17,7 @@ export declare abstract class Method {
         [name: string]: any;
     }): Promise<Response>;
     protected rejectWithCode(code: number, err: string, reject: (err: Response) => void): void;
+    protected rejectWithCode400(err: string, reject: (err: Response) => void): void;
     protected rejectWithCode403(err: string, reject: (err: Response) => void): void;
     protected rejectWithCode404(err: string, reject: (err: Response) => void): void;
     protected rejectWithCode500(err: string, reject: (err: Response) => void): void;

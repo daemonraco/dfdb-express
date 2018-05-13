@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 
 // ---------------------------------------------------------------------------- //
 // Testing.
-describe('dfdb: Simple connection [001]', function () {
+describe('dfdb-express: Simple connection [001]', function () {
     it('requesting the default endpoint', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics')

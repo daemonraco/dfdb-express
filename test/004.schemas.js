@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 
 // ---------------------------------------------------------------------------- //
 // Testing.
-describe(`dfdb: Checking collection's schema [004]`, function () {
+describe(`dfdb-express: Checking collection's schema [004]`, function () {
     it('requesting the schema of a collection with one', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/schemas/with_schema/$schema')

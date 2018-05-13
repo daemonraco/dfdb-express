@@ -43,6 +43,9 @@ export abstract class Method {
 
         reject(result);
     }
+    protected rejectWithCode400(err: string, reject: (err: Response) => void): void {
+        this.rejectWithCode(400, err, reject);
+    }
     protected rejectWithCode403(err: string, reject: (err: Response) => void): void {
         this.rejectWithCode(403, err, reject);
     }

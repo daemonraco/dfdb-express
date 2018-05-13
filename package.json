@@ -1,6 +1,6 @@
 {
     "name": "dfdb-express",
-    "version": "0.0.19",
+    "version": "0.0.20",
     "description": "This is a simple extension to easily expose a DocsOnFileDB through Express as a RESTful API.",
     "main": "lib/index",
     "types": "lib/index",
@@ -18,7 +18,10 @@
         "build:ui:live": "bash .tools/build-ui.sh live",
         "pretest": "./test/assets/start.sh",
         "test": "./node_modules/mocha/bin/mocha || true",
-        "posttest": "./test/assets/stop.sh"
+        "posttest": "./test/assets/stop.sh",
+        "pretest:local": "npm run pretest",
+        "test:local": "./node_modules/mocha/bin/mocha -b || true",
+        "posttest:local": "npm run posttest"
     },
     "keywords": [
         "dfdb",
@@ -41,7 +44,7 @@
         "body-parser": "^1.18.2",
         "chalk": "^2.3.2",
         "commander": "^2.15.1",
-        "dfdb": "^0.3.0",
+        "dfdb": "^0.3.2",
         "es6-promise": "^4.2.4",
         "express": "^4.16.3"
     }

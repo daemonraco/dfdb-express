@@ -15,6 +15,10 @@ export class Delete extends Method {
     public process(params: { [name: string]: any }): Promise<Response> {
         let results: Promise<Response> = null;
 
+        let query = typeof params.queryParams.query === 'undefined' ? null : params.queryParams.query;
+
+        try { query = JSON.parse(query); } catch (e) { query = null; }
+
         if (params.collection && params.id) {
             switch (params.id) {
                 case '$drop':
@@ -22,6 +26,9 @@ export class Delete extends Method {
                     break;
                 case '$dropIndex':
                     results = this.dropFieldIndex(params.collection, params);
+                    break;
+                case '$many':
+                    results = this.deleteMany(params.collection, query);
                     break;
                 default:
                     results = this.delete(params.collection, params.id);
@@ -67,6 +74,28 @@ export class Delete extends Method {
                     }).catch((err: string) => this.rejectWithCode500(err, reject));
             } else {
                 this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
+            }
+        });
+    }
+    protected deleteMany(collectionName: string, query: any): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            if (query) {
+                if (this._hiddenCollections.indexOf(collectionName) < 0) {
+                    this._connection.collection(collectionName)
+                        .then((col: any) => {
+                            col.removeMany(query)
+                                .then((rmResults: any) => {
+                                    result.body = rmResults;
+                                    resolve(result);
+                                }).catch((err: string) => this.rejectWithCode500(err, reject));
+                        }).catch((err: string) => this.rejectWithCode500(err, reject));
+                } else {
+                    this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
+                }
+            } else {
+                this.rejectWithCode400(`Wrong query parameter. Query: ${JSON.stringify(query)}`, reject);
             }
         });
     }

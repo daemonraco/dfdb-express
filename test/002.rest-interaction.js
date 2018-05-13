@@ -13,8 +13,8 @@ chai.use(chaiHttp);
 
 // ---------------------------------------------------------------------------- //
 // Testing.
-describe('dfdb: RESTful interaction [002]', function () {
-    it('Listing initial collections', (done) => {
+describe('dfdb-express: RESTful interaction [002]', function () {
+    it('listing initial collections', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics')
             .end((err, res) => {
@@ -34,7 +34,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it('Listing initial collections (as simple response)', (done) => {
+    it('listing initial collections (as simple response)', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics?simple')
             .end((err, res) => {
@@ -54,7 +54,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it(`Listing contents on 'users' collection`, (done) => {
+    it(`listing contents on 'users' collection`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics/users')
             .end((err, res) => {
@@ -84,7 +84,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it(`Listing contents on 'users' collection (as simple response)`, (done) => {
+    it(`listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics/users?simple')
             .end((err, res) => {
@@ -104,7 +104,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it('Inserting a new user', (done) => {
+    it('inserting a new user', (done) => {
         chai.request(`http://localhost:${port}`)
             .post('/rest/basics/users')
             .send({
@@ -145,7 +145,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it('Listing updated collections', (done) => {
+    it('listing updated collections', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics')
             .end((err, res) => {
@@ -174,7 +174,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it('Listing updated collections (as simple response)', (done) => {
+    it('listing updated collections (as simple response)', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics?simple')
             .end((err, res) => {
@@ -195,7 +195,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it(`Listing contents on 'users' collection`, (done) => {
+    it(`listing contents on 'users' collection`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics/users')
             .end((err, res) => {
@@ -239,7 +239,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it(`Listing contents on 'users' collection (as simple response)`, (done) => {
+    it(`listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics/users?simple')
             .end((err, res) => {
@@ -273,7 +273,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it('Updaintg the inserted user', (done) => {
+    it('updaintg the inserted user', (done) => {
         chai.request(`http://localhost:${port}`)
             .put('/rest/basics/users/1')
             .send({
@@ -314,7 +314,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it(`Listing contents on 'users' collection`, (done) => {
+    it(`listing contents on 'users' collection`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics/users')
             .end((err, res) => {
@@ -358,7 +358,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it(`Listing contents on 'users' collection (as simple response)`, (done) => {
+    it(`listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics/users?simple')
             .end((err, res) => {
@@ -392,7 +392,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it('Removing the inserted user', (done) => {
+    it('removing the inserted user', (done) => {
         chai.request(`http://localhost:${port}`)
             .delete('/rest/basics/users/1')
             .end((err, res) => {
@@ -412,7 +412,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it(`Listing contents on 'users' collection`, (done) => {
+    it(`listing contents on 'users' collection`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics/users')
             .end((err, res) => {
@@ -442,7 +442,7 @@ describe('dfdb: RESTful interaction [002]', function () {
             });
     });
 
-    it(`Listing contents on 'users' collection (as simple response)`, (done) => {
+    it(`listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/basics/users?simple')
             .end((err, res) => {

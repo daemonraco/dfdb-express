@@ -13,8 +13,8 @@ chai.use(chaiHttp);
 
 // ---------------------------------------------------------------------------- //
 // Testing.
-describe('dfdb: RESTful interaction with hidden collections [003]', function () {
-    it('Listing updated collections', (done) => {
+describe('dfdb-express: RESTful interaction with hidden collections [003]', function () {
+    it('listing updated collections', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens')
             .end((err, res) => {
@@ -43,7 +43,7 @@ describe('dfdb: RESTful interaction with hidden collections [003]', function () 
             });
     });
 
-    it('Listing updated collections (as simple response)', (done) => {
+    it('listing updated collections (as simple response)', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens?simple')
             .end((err, res) => {
@@ -64,7 +64,7 @@ describe('dfdb: RESTful interaction with hidden collections [003]', function () 
             });
     });
 
-    it(`Listing contents on 'users' collection`, (done) => {
+    it(`listing contents on 'users' collection`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens/users')
             .end((err, res) => {
@@ -108,7 +108,7 @@ describe('dfdb: RESTful interaction with hidden collections [003]', function () 
             });
     });
 
-    it(`Listing contents on 'users' collection (as simple response)`, (done) => {
+    it(`listing contents on 'users' collection (as simple response)`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens/users?simple')
             .end((err, res) => {
@@ -142,7 +142,7 @@ describe('dfdb: RESTful interaction with hidden collections [003]', function () 
             });
     });
 
-    it(`Listing contents on 'profiles' collection`, (done) => {
+    it(`listing contents on 'profiles' collection`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens/profiles')
             .end((err, res) => {
@@ -172,7 +172,7 @@ describe('dfdb: RESTful interaction with hidden collections [003]', function () 
             });
     });
 
-    it(`Listing contents on 'profiles' collection (as simple response)`, (done) => {
+    it(`listing contents on 'profiles' collection (as simple response)`, (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/hiddens/profiles?simple')
             .end((err, res) => {
@@ -192,7 +192,7 @@ describe('dfdb: RESTful interaction with hidden collections [003]', function () 
             });
     });
 
-    it('Inserting a profile', (done) => {
+    it('inserting a profile', (done) => {
         chai.request(`http://localhost:${port}`)
             .post('/rest/hiddens/profiles')
             .send({
@@ -226,7 +226,7 @@ describe('dfdb: RESTful interaction with hidden collections [003]', function () 
             });
     });
 
-    it('Updating a profile', (done) => {
+    it('updating a profile', (done) => {
         chai.request(`http://localhost:${port}`)
             .put('/rest/hiddens/profiles/1')
             .send({
@@ -260,7 +260,7 @@ describe('dfdb: RESTful interaction with hidden collections [003]', function () 
             });
     });
 
-    it('Deleting a profile', (done) => {
+    it('deleting a profile', (done) => {
         chai.request(`http://localhost:${port}`)
             .delete('/rest/hiddens/profiles/1')
             .end((err, res) => {

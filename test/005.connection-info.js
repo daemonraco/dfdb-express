@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 
 // ---------------------------------------------------------------------------- //
 // Testing.
-describe(`dfdb: Checking connection's information [005]`, function () {
+describe(`dfdb-express: Checking connection's information [005]`, function () {
     it('requesting the information of a exposed database', (done) => {
         chai.request(`http://localhost:${port}`)
             .get('/rest/schemas/$info')

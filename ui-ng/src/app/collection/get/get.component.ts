@@ -43,7 +43,7 @@ export class CollectionGetComponent implements OnInit {
             this.filter = JSON.stringify(parsedFilter, null, 2);
             this.lSrv.show();
 
-            this.collectionSrv.get(this.collectionName, this.filter, this.simple)
+            this.collectionSrv.get(this.collectionName, parsedFilter, this.simple)
                 .subscribe(data => {
                     this.results = JSON.stringify(data, null, 2);
                     this.lSrv.hide();

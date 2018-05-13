@@ -25,6 +25,11 @@ export class CollectionService {
         this.luSrv.setUrl(url, 'delete');
         return this.http.delete(url, this.headers()).map(data => data.json());
     }
+    public deleteMany(collectionName: string, filter: any): Observable<any> {
+        const url: string = `${DFDBConfig.restUri}/${collectionName}/$many?query=${encodeURI(JSON.stringify(filter))}`;
+        this.luSrv.setUrl(url, 'delete');
+        return this.http.delete(url, this.headers()).map(data => data.json());
+    }
     public dropFieldIndex(collectionName: string, field: string): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/${collectionName}/$dropIndex?field=${field}`;
         this.luSrv.setUrl(url, 'delete');

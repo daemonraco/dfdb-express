@@ -13,6 +13,7 @@ export declare class Delete extends Method {
         [name: string]: any;
     }): Promise<Response>;
     protected delete(collectionName: string, documentId: string): Promise<Response>;
+    protected deleteMany(collectionName: string, query: any): Promise<Response>;
     protected drop(collectionName: string): Promise<Response>;
     protected setKnownEndpoints(): void;
 }

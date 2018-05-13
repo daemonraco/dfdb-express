@@ -88,11 +88,7 @@ export class Get extends Method {
             } else {
                 conditions = query;
             }
-            if (conditions) {
-                try { conditions = JSON.parse(conditions) } catch (e) {
-                    conditions = {};
-                };
-            } else {
+            if (!conditions) {
                 conditions = {};
             }
 
