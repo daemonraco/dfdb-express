@@ -1,7 +1,7 @@
 <div class="collection-action method-delete">
     <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_DELETE'">
         <strong>DELETE:</strong>
-        <code class="font-italic">{{restUri}}/:id</code>
+        <code class="font-italic">{{restUri}}/{{this.single ? ':id' : '$many'}}</code>
     </div>
     <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_DELETE'">
         <form name="form_collection_DELETE" (submit)="submitQuery($event)">
