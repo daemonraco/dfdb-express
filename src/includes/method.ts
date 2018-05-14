@@ -3,6 +3,7 @@
  * @author Alejandro D. Simi
  */
 
+import { BasicDictionary } from "dfdb";
 import { Promise } from 'es6-promise';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -32,7 +33,7 @@ export abstract class Method {
     public endpoints(): MethodEndpoint[] {
         return this._endpoints;
     }
-    public abstract process(params: { [name: string]: any }): Promise<Response>;
+    public abstract process(params: BasicDictionary): Promise<Response>;
     //
     // Protected methods.
     protected rejectWithCode(code: number, err: string, reject: (err: Response) => void): void {

@@ -3,6 +3,7 @@
  * @author Alejandro D. Simi
  */
 
+import { BasicDictionary, DBDocument, DBDocumentID } from "dfdb";
 import { Promise } from 'es6-promise';
 
 import { Method } from "./method";
@@ -12,7 +13,7 @@ import { Response } from "./response";
 export class Get extends Method {
     //
     // Public methods.
-    public process(params: { [name: string]: any }): Promise<Response> {
+    public process(params: BasicDictionary): Promise<Response> {
         let results: Promise<Response> = null;
 
         const simple = typeof params.queryParams.simple !== 'undefined';
@@ -73,7 +74,7 @@ export class Get extends Method {
             }
         });
     }
-    protected collection(collectionName: string, simple: boolean = false, conditionSets: { [name: string]: any }): Promise<Response> {
+    protected collection(collectionName: string, simple: boolean = false, conditionSets: BasicDictionary): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
@@ -81,7 +82,7 @@ export class Get extends Method {
             const { filter, query } = conditionSets;
 
             let searchMechanism: string = 'search';
-            let conditions: any = null;
+            let conditions: BasicDictionary = null;
             if (filter !== null) {
                 searchMechanism = 'find';
                 conditions = filter;
@@ -100,7 +101,7 @@ export class Get extends Method {
                 this._connection.collection(collectionName)
                     .then((col: any) => {
                         col[searchMechanism](conditions)
-                            .then((docs: any[]) => {
+                            .then((docs: DBDocument[]) => {
                                 result.body = buildBody({ searchMechanism, conditions, docs });
                                 resolve(result);
                             }).catch((err: string) => this.rejectWithCode500(err, reject));
@@ -111,7 +112,7 @@ export class Get extends Method {
             }
         });
     }
-    protected connectionInfo(params: { [name: string]: any }): Promise<Response> {
+    protected connectionInfo(params: BasicDictionary): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
             let fullDocs: boolean = typeof params.queryParams.fullDocs !== 'undefined';
@@ -125,7 +126,7 @@ export class Get extends Method {
             resolve(result);
         });
     }
-    protected document(collectionName: string, documentId: string): Promise<Response> {
+    protected document(collectionName: string, documentId: DBDocumentID): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
@@ -135,7 +136,7 @@ export class Get extends Method {
                 this._connection.collection(collectionName)
                     .then((col: any) => {
                         col.searchOne({ _id: documentId })
-                            .then((data: any) => {
+                            .then((data: DBDocument) => {
                                 if (data) {
                                     result.body = data;
                                     resolve(result);
@@ -153,7 +154,7 @@ export class Get extends Method {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
-            const collections = this._connection.collections();
+            const collections: any = this._connection.collections();
 
             if (typeof collections[collectionName] !== 'undefined' && this._hiddenCollections.indexOf(collectionName) < 0) {
                 this._connection.collection(collectionName)
@@ -170,7 +171,7 @@ export class Get extends Method {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
-            const tempResult = this._connection.collections();
+            const tempResult: any = this._connection.collections();
             result.body = {};
             Object.keys(tempResult).forEach((name: string) => {
                 if (this._hiddenCollections.indexOf(name) < 0) {
@@ -189,7 +190,7 @@ export class Get extends Method {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
-            const collections = this._connection.collections();
+            const collections: any = this._connection.collections();
 
             if (typeof collections[collectionName] !== 'undefined' && this._hiddenCollections.indexOf(collectionName) < 0) {
                 this._connection.collection(collectionName)

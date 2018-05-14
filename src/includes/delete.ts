@@ -3,6 +3,7 @@
  * @author Alejandro D. Simi
  */
 
+import { BasicDictionary, DBDocumentID } from "dfdb";
 import { Promise } from 'es6-promise';
 
 import { Method } from "./method";
@@ -12,11 +13,10 @@ import { Response } from "./response";
 export class Delete extends Method {
     //
     // Public methods.
-    public process(params: { [name: string]: any }): Promise<Response> {
+    public process(params: BasicDictionary): Promise<Response> {
         let results: Promise<Response> = null;
 
         let query = typeof params.queryParams.query === 'undefined' ? null : params.queryParams.query;
-
         try { query = JSON.parse(query); } catch (e) { query = null; }
 
         if (params.collection && params.id) {
@@ -41,7 +41,7 @@ export class Delete extends Method {
     }
     //
     // Protected methods.
-    protected dropFieldIndex(collectionName: string, params: { [name: string]: any }): Promise<Response> {
+    protected dropFieldIndex(collectionName: string, params: BasicDictionary): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
@@ -59,7 +59,7 @@ export class Delete extends Method {
             }
         });
     }
-    protected delete(collectionName: string, documentId: string): Promise<Response> {
+    protected delete(collectionName: string, documentId: DBDocumentID): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
@@ -77,7 +77,7 @@ export class Delete extends Method {
             }
         });
     }
-    protected deleteMany(collectionName: string, query: any): Promise<Response> {
+    protected deleteMany(collectionName: string, query: BasicDictionary): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
@@ -86,7 +86,7 @@ export class Delete extends Method {
                     this._connection.collection(collectionName)
                         .then((col: any) => {
                             col.removeMany(query)
-                                .then((rmResults: any) => {
+                                .then((rmResults: BasicDictionary) => {
                                     result.body = rmResults;
                                     resolve(result);
                                 }).catch((err: string) => this.rejectWithCode500(err, reject));

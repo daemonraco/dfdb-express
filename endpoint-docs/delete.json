@@ -3,6 +3,9 @@
         "path": "/:collection/$drop"
     },
     {
+        "path": "/:collection/$many"
+    },
+    {
         "path": "/:collection/$dropIndex?field=:name",
         "brief": "Drops a field index from a collection."
     },

@@ -273,7 +273,7 @@ describe('dfdb-express: RESTful interaction [002]', function () {
             });
     });
 
-    it('updaintg the inserted user', (done) => {
+    it('updating the inserted user', (done) => {
         chai.request(`http://localhost:${port}`)
             .put('/rest/basics/users/1')
             .send({

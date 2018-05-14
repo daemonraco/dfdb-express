@@ -44,7 +44,7 @@
         "body-parser": "^1.18.2",
         "chalk": "^2.3.2",
         "commander": "^2.15.1",
-        "dfdb": "^0.3.2",
+        "dfdb": "^0.3.3",
         "es6-promise": "^4.2.4",
         "express": "^4.16.3"
     }

@@ -2,6 +2,7 @@
  * @file method.ts
  * @author Alejandro D. Simi
  */
+import { BasicDictionary } from "dfdb";
 import { Promise } from 'es6-promise';
 import { Manager } from "./manager";
 import { MethodEndpoint } from "./method-endpoint";
@@ -13,9 +14,7 @@ export declare abstract class Method {
     protected _manager: Manager;
     constructor(manager: Manager, conn: any, hiddenCollections?: string[]);
     endpoints(): MethodEndpoint[];
-    abstract process(params: {
-        [name: string]: any;
-    }): Promise<Response>;
+    abstract process(params: BasicDictionary): Promise<Response>;
     protected rejectWithCode(code: number, err: string, reject: (err: Response) => void): void;
     protected rejectWithCode400(err: string, reject: (err: Response) => void): void;
     protected rejectWithCode403(err: string, reject: (err: Response) => void): void;

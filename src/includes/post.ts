@@ -3,6 +3,7 @@
  * @author Alejandro D. Simi
  */
 
+import { BasicDictionary } from "dfdb";
 import { Promise } from 'es6-promise';
 
 import { Method } from "./method";
@@ -12,7 +13,7 @@ import { Response } from "./response";
 export class Post extends Method {
     //
     // Public methods.
-    public process(params: { [name: string]: any }): Promise<Response> {
+    public process(params: BasicDictionary): Promise<Response> {
         let results: Promise<Response> = null;
 
         if (params.collection === '$initializer' && !params.id) {
@@ -33,7 +34,7 @@ export class Post extends Method {
     }
     //
     // Protected methods.
-    protected createFieldIndex(collectionName: string, params: { [name: string]: any }): Promise<Response> {
+    protected createFieldIndex(collectionName: string, params: BasicDictionary): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
@@ -51,7 +52,7 @@ export class Post extends Method {
             }
         });
     }
-    protected insert(collectionName: string, document: { [name: string]: any }): Promise<Response> {
+    protected insert(collectionName: string, document: BasicDictionary): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 

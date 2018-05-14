@@ -3,6 +3,7 @@
  * @author Alejandro D. Simi
  */
 
+import { BasicDictionary, DBDocument, DBDocumentID } from "dfdb";
 import { Promise } from 'es6-promise';
 
 import { Method } from "./method";
@@ -12,8 +13,11 @@ import { Response } from "./response";
 export class Put extends Method {
     //
     // Public methods.
-    public process(params: { [name: string]: any }): Promise<Response> {
+    public process(params: BasicDictionary): Promise<Response> {
         let results: Promise<Response> = null;
+
+        let query = typeof params.queryParams.query === 'undefined' ? null : params.queryParams.query;
+        try { query = JSON.parse(query); } catch (e) { query = null; }
 
         if (params.collection && params.id) {
             switch (params.id) {
@@ -21,6 +25,9 @@ export class Put extends Method {
                     let schema: any = params.body;
                     schema = Object.keys(params.body).length === 0 ? null : schema;
                     results = this.setSchema(params.collection, schema);
+                    break;
+                case '$many':
+                    results = this.updateMany(params.collection, query, params.body);
                     break;
                 default:
                     const partial: boolean = typeof params.queryParams.partial !== 'undefined';
@@ -35,7 +42,7 @@ export class Put extends Method {
     }
     //
     // Protected methods.
-    protected setSchema(collectionName: string, data: { [name: string]: any }): Promise<Response> {
+    protected setSchema(collectionName: string, data: BasicDictionary): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
@@ -61,7 +68,7 @@ export class Put extends Method {
             }
         });
     }
-    protected update(collectionName: string, documentId: string, document: { [name: string]: any }, partial: boolean): Promise<Response> {
+    protected update(collectionName: string, documentId: DBDocumentID, document: BasicDictionary, partial: boolean): Promise<Response> {
         return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
             const result: Response = new Response();
 
@@ -70,13 +77,35 @@ export class Put extends Method {
                     .then((col: any) => {
                         const func: string = partial ? 'partialUpdate' : 'update';
                         col[func](documentId, document)
-                            .then((updatedDocument: any) => {
+                            .then((updatedDocument: DBDocument) => {
                                 result.body = updatedDocument;
                                 resolve(result);
                             }).catch((err: string) => this.rejectWithCode500(err, reject));
                     }).catch((err: string) => this.rejectWithCode500(err, reject));
             } else {
                 this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
+            }
+        });
+    }
+    protected updateMany(collectionName: string, query: BasicDictionary, document: BasicDictionary): Promise<Response> {
+        return new Promise<Response>((resolve: (res: Response) => void, reject: (err: Response) => void) => {
+            const result: Response = new Response();
+
+            if (query) {
+                if (this._hiddenCollections.indexOf(collectionName) < 0) {
+                    this._connection.collection(collectionName)
+                        .then((col: any) => {
+                            col.updateMany(query, document)
+                                .then((updatedDocuments: DBDocument[]) => {
+                                    result.body = updatedDocuments;
+                                    resolve(result);
+                                }).catch((err: string) => this.rejectWithCode500(err, reject));
+                        }).catch((err: string) => this.rejectWithCode500(err, reject));
+                } else {
+                    this.rejectWithCode403(`Forbidden access to collection '${collectionName}'`, reject);
+                }
+            } else {
+                this.rejectWithCode400(`Wrong query parameter. Query: ${JSON.stringify(query)}`, reject);
             }
         });
     }

@@ -5,6 +5,9 @@
         "examplesFile": "put.schema"
     },
     {
+        "path": "/:collection/$many"
+    },
+    {
         "path": "/:collection/:id"
     }
 ]
