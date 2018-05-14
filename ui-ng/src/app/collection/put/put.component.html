@@ -1,20 +1,39 @@
 <div class="collection-action method-put">
     <div class="collection-action-header" data-toggle="collapse" [attr.data-target]="'#collection_' + collectionName + '_PUT'">
         <strong>PUT:</strong>
-        <code class="font-italic">{{restUri}}/:id</code>
+        <code class="font-italic">{{restUri}}/{{single ? ':id' : '$many'}}</code>
     </div>
     <div class="collection-action-body collapse" [id]="'collection_' + collectionName + '_PUT'">
         <form name="form_collection_PUT" (submit)="submitQuery($event)">
             <h5>Filter</h5>
+
             <div class="form-group">
+                <select [(ngModel)]="single" name="single" class="form-control form-control-sm">
+                    <option [ngValue]="false">Multiple</option>
+                    <option [ngValue]="true">Single</option>
+                </select>
+                <small class="form-text text-muted">
+                    Whether to affect one or more than one at the same time.
+                </small>
+            </div>
+
+            <div *ngIf="single" class="form-group">
                 <input [(ngModel)]="documentId" name="documentId" type="text" class="form-control form-control-sm" placeholder="id..." />
             </div>
 
-            <div class="form-group">
+            <div *ngIf="!single" class="form-group">
+                <textarea [(ngModel)]="filter" name="filter" class="form-control form-control-sm" rows="5" placeholder="{}"></textarea>
+                <small class="form-text text-muted">JSON to be used as query.</small>
+            </div>
+
+            <div *ngIf="single" class="form-group">
                 <select [(ngModel)]="partial" name="partial" class="form-control form-control-sm">
                     <option [ngValue]="true">Partial set of fields</option>
                     <option [ngValue]="false">Complete set of fields</option>
                 </select>
+                <small class="form-text text-muted">
+                    Whether to replace all field or just some.
+                </small>
             </div>
 
             <div class="form-group">

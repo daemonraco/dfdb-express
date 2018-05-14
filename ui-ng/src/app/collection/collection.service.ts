@@ -60,6 +60,11 @@ export class CollectionService {
         this.luSrv.setUrl(url, 'put');
         return this.http.put(url, data, this.headers()).map(data => data.json());
     }
+    public putMany(collectionName: string, filter: any, data: any): Observable<any> {
+        const url: string = `${DFDBConfig.restUri}/${collectionName}/$many?query=${encodeURI(JSON.stringify(filter))}`;
+        this.luSrv.setUrl(url, 'put');
+        return this.http.put(url, data, this.headers()).map(data => data.json());
+    }
     public schema(collectionName: string): Observable<any> {
         const url: string = `${DFDBConfig.restUri}/${collectionName}/\$schema`;
         this.luSrv.setUrl(url, 'get');
